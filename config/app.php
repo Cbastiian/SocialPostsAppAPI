@@ -177,8 +177,10 @@ return [
 
         //Packages
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        Ichtrojan\Otp\OtpServiceProvider::class,
 
         //Api
+        App\Providers\Api\SharedProvider::class,
         App\Providers\Api\TestProvider::class,
         App\Providers\Api\AuthProvider::class,
         App\Providers\Api\UserProvider::class
@@ -235,7 +237,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'Otp' => Ichtrojan\Otp\Otp::class,
     ],
 
 ];

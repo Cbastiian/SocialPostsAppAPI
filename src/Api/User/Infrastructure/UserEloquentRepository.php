@@ -2,10 +2,15 @@
 
 namespace Src\Api\User\Infrastructure;
 
+use App\Mail\Api\User\RegisterVerificationMailiable;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Src\Api\Shared\Domain\ValueObjects\OtpCode;
 use Src\Api\User\Domain\Contracts\UserRepository;
 use Src\Api\User\Domain\UserEntity;
+use Src\Api\User\Domain\ValueObjects\Email;
+use Src\Api\User\Domain\ValueObjects\Name;
 
 final class UserEloquentRepository implements UserRepository
 {
@@ -18,5 +23,10 @@ final class UserEloquentRepository implements UserRepository
             'password' => Hash::make($userEntity->getPassword()->value()),
             'photo' => $userEntity->getPhoto()->value()
         ]);
+    }
+
+    public function sendRegisterEmailVerification(Name $name, Email $email, OtpCode $otpCode, int $expireTime)
+    {
+        Mail::to($email->value())->send(new RegisterVerificationMailiable($name->value(), $otpCode->value(), $expireTime));
     }
 }
