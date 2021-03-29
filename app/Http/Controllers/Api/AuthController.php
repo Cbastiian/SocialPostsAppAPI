@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\User\CreateUserRequest;
+use App\Http\Requests\Api\Auth\LoginRequest;
 use Exception;
+use Src\Api\Auth\Application\Authenticater\AuthenticateCommand;
 use Src\Api\Shared\Domain\Contracts\CommandBus;
 use Src\Api\Shared\Domain\Exceptions\DomainError;
-use Src\Api\User\Application\UserCreator\CreateUserCommand;
 
-class UserController extends Controller
+class AuthController extends Controller
 {
     private CommandBus $commandBus;
 
@@ -18,22 +18,16 @@ class UserController extends Controller
         $this->commandBus = $commandBus;
     }
 
-    public function createUser(CreateUserRequest $createUserRequest)
+    public function login(LoginRequest $loginRequest)
     {
         try {
-            $data = $createUserRequest->data();
+            $data = $loginRequest->data();
 
-            $command = new CreateUserCommand(
-                $data->name,
-                $data->email,
-                $data->username,
-                $data->password,
-                $data->photo
-            );
+            $command = new AuthenticateCommand($data->username, $data->password);
 
-            $user = $this->commandBus->execute($command);
+            $auth = $this->commandBus->execute($command);
 
-            return response()->json($user, 201);
+            return response()->json($auth, 201);
         } catch (DomainError $error) {
             return response()->json([
                 "code" => $error->errorCode(),

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Api\User;
 
 use App\Dto\User\CreateUserData;
 use App\Utils\BaseFormRequest;

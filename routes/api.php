@@ -2,9 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
+//TODO logout, middleware 
+
 Route::namespace('Api')->group(function () {
-    Route::prefix('test')->group(function () {
-        Route::post('try', 'TestController@test');
+    Route::prefix('auth')->group(function () {
+        Route::post('login', 'AuthController@login');
     });
 
     Route::prefix('user')->group(function () {
