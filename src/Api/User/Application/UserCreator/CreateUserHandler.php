@@ -6,6 +6,7 @@ namespace Src\Api\User\Application\UserCreator;
 
 use Src\Api\Shared\Application\Images\ImageCreator;
 use Src\Api\Shared\Domain\Contracts\CommandHandler;
+use Src\Api\User\Domain\Contracts\UserValidation;
 use Src\Api\User\Domain\ValueObjects\Email;
 use Src\Api\User\Domain\ValueObjects\Name;
 use Src\Api\User\Domain\ValueObjects\Password;
@@ -16,13 +17,16 @@ final class CreateUserHandler implements CommandHandler
 {
     private UserCreator $userCreator;
     private ImageCreator $imageCreator;
+    private UserValidation $userValidation;
 
     public function __construct(
         UserCreator $userCreator,
-        ImageCreator $imageCreator
+        ImageCreator $imageCreator,
+        UserValidation $userValidation
     ) {
         $this->userCreator = $userCreator;
         $this->imageCreator = $imageCreator;
+        $this->userValidation = $userValidation;
     }
 
     public function execute($command)
@@ -31,6 +35,9 @@ final class CreateUserHandler implements CommandHandler
         $emai = new Email($command->getEmail());
         $username = new Username($command->getUsername());
         $password = new Password($command->getPassword());
+
+        $this->userValidation->throwIfEmailAlreadyExist($emai);
+        $this->userValidation->throwIfUsernameAlreadyExist($username);
 
         $userPhoto = $this->imageCreator->__invoke($command->getPhoto(), 'img/profile/');
 
