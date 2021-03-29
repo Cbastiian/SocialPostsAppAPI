@@ -177,9 +177,11 @@ return [
 
         //Packages
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
-        
+
         //Api
-        App\Providers\Api\TestProvider::class
+        App\Providers\Api\TestProvider::class,
+        App\Providers\Api\AuthProvider::class,
+        App\Providers\Api\UserProvider::class
 
     ],
 
