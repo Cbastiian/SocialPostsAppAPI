@@ -16,7 +16,8 @@ final class UserEmailValidator
         $this->userRepository = $userRepository;
     }
 
-    public function __invoke(Email $email)
+    public function __invoke(Email $email, bool $status)
     {
+        $this->userRepository->changeActiveStatus($email, $status);
     }
 }

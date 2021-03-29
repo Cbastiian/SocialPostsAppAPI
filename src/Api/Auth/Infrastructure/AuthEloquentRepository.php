@@ -10,6 +10,7 @@ final class AuthEloquentRepository implements AuthRepository
 {
     public function login(Credentials $credentials)
     {
+        //TODO: cambiar login unicamente a cuentas activas
         $token = Auth::attempt($credentials->value());
         return $this->respondWithToken($token);
     }

@@ -25,6 +25,14 @@ final class UserEloquentRepository implements UserRepository
         ]);
     }
 
+    public function changeActiveStatus(Email $email, bool $status)
+    {
+        User::where('email', $email->value())
+            ->update([
+                'active' => $status
+            ]);
+    }
+
     public function sendRegisterEmailVerification(Name $name, Email $email, OtpCode $otpCode, int $expireTime)
     {
         Mail::to($email->value())->send(new RegisterVerificationMailiable($name->value(), $otpCode->value(), $expireTime));

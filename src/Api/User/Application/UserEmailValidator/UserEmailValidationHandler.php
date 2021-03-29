@@ -6,20 +6,24 @@ namespace Src\Api\User\Application\UserEmailValidator;
 
 use Src\Api\Shared\Domain\Contracts\CommandHandler;
 use Src\Api\Shared\Domain\Contracts\SharedRepository;
+use Src\Api\Shared\Domain\Contracts\SharedValidations;
 use Src\Api\Shared\Domain\ValueObjects\OtpCode;
 use Src\Api\User\Domain\ValueObjects\Email;
 
 final class UserEmailValidationHandler implements CommandHandler
 {
-    private UserEmailValidator $userEmailValidation;
+    private UserEmailValidator $userEmailValidator;
     private SharedRepository $sharedRepository;
+    private SharedValidations $shraredValidations;
 
     public function __construct(
-        UserEmailValidator $userEmailValidation,
-        SharedRepository $sharedRepository
+        UserEmailValidator $userEmailValidator,
+        SharedRepository $sharedRepository,
+        SharedValidations $shraredValidations
     ) {
-        $this->userEmailValidation = $userEmailValidation;
+        $this->userEmailValidator = $userEmailValidator;
         $this->sharedRepository = $sharedRepository;
+        $this->shraredValidations = $shraredValidations;
     }
 
     public function execute($command)
@@ -29,9 +33,9 @@ final class UserEmailValidationHandler implements CommandHandler
 
         $validationStatus = $this->validateCode($email, $otpCode);
 
-        //TODO: excepcion en caso de validacion fallida
-        //TODO: activacion de cuenta
-        //TODO: cambio en login(solo cuentas activas)
+        $this->shraredValidations->throwIfOtpValidationFail($validationStatus);
+
+        $this->userEmailValidator->__invoke($email, $validationStatus);
     }
 
     public function validateCode(Email $email, OtpCode $otpCode): bool

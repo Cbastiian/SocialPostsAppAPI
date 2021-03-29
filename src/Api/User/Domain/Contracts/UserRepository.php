@@ -10,5 +10,6 @@ use Src\Api\User\Domain\ValueObjects\Name;
 interface UserRepository
 {
     public function createUser(UserEntity $userEntity);
+    public function changeActiveStatus(Email $email, bool $status);
     public function sendRegisterEmailVerification(Name $name, Email $email, OtpCode $otpCode, int $expireTime);
 }
