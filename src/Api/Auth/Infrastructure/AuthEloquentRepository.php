@@ -10,9 +10,16 @@ final class AuthEloquentRepository implements AuthRepository
 {
     public function login(Credentials $credentials)
     {
-        //TODO: cambiar login unicamente a cuentas activas
         $token = Auth::attempt($credentials->value());
-        return $this->respondWithToken($token);
+
+        if (Auth::user()->active) {
+            return $this->respondWithToken($token);
+        } else {
+            Auth::invalidate();
+            return [
+                'access_token' => false,
+            ];
+        }
     }
 
     public function logout()
@@ -29,7 +36,7 @@ final class AuthEloquentRepository implements AuthRepository
     {
         return [
             'access_token' => $token,
-            'token_type' => 'bearer',
+            'token_type' => 'Bearer',
             'expires_in' => Auth::factory()->getTTL() * 60,
             'user' => auth()->user()
         ];

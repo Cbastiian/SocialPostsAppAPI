@@ -4,6 +4,7 @@ namespace Src\Api\User\Infrastructure;
 
 use App\Mail\Api\User\RegisterVerificationMailiable;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Src\Api\Shared\Domain\ValueObjects\OtpCode;
@@ -29,7 +30,8 @@ final class UserEloquentRepository implements UserRepository
     {
         User::where('email', $email->value())
             ->update([
-                'active' => $status
+                'active' => $status,
+                'email_verified_at' => Carbon::now()
             ]);
     }
 
