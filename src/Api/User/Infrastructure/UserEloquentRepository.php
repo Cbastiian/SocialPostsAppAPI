@@ -16,6 +16,7 @@ use Src\Api\Shared\Domain\ValueObjects\OtpCode;
 use Src\Api\User\Domain\Contracts\UserRepository;
 use App\Mail\Api\User\RegisterVerificationMailiable;
 use App\Models\PasswordReset;
+use Src\Api\User\Domain\ValueObjects\Password;
 
 final class UserEloquentRepository implements UserRepository
 {
@@ -47,6 +48,14 @@ final class UserEloquentRepository implements UserRepository
             ->update([
                 'active' => $status,
                 'email_verified_at' => Carbon::now()
+            ]);
+    }
+
+    public function changePassword(Email $email, Password $password)
+    {
+        User::where('email', $email->value())
+            ->update([
+                'password' => Hash::make($password->value())
             ]);
     }
 

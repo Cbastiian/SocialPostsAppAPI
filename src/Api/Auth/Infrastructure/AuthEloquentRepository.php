@@ -12,10 +12,9 @@ final class AuthEloquentRepository implements AuthRepository
     {
         $token = Auth::attempt($credentials->value());
 
-        if (Auth::user()->active) {
+        if (Auth::user() && boolval(Auth::user()->active)) {
             return $this->respondWithToken($token);
         } else {
-            Auth::invalidate(true);
             return [
                 'access_token' => false,
             ];

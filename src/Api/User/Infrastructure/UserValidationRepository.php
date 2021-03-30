@@ -2,7 +2,9 @@
 
 namespace Src\Api\User\Infrastructure;
 
+use App\Models\PasswordReset;
 use App\Models\User;
+use Src\Api\Shared\Domain\ValueObjects\Token;
 use Src\Api\User\Domain\Contracts\UserValidation;
 use Src\Api\User\Domain\Exceptions\EmailAlreadyExist;
 use Src\Api\User\Domain\Exceptions\EmailNotExistError;

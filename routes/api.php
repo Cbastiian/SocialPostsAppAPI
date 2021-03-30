@@ -11,6 +11,7 @@ Route::namespace('Api')->group(function () {
         Route::post('validate', 'UserController@validateUser');
         Route::post('resend-verification-email', 'UserController@resendVerificationEmail');
         Route::post('reset-password-mail', 'UserController@sendResetPasswordMail');
+        Route::post('reset-password', 'UserController@resetPassword');
     });
 
     Route::group(['middleware' => 'jwt.verify'], function () {
