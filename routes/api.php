@@ -9,6 +9,7 @@ Route::namespace('Api')->group(function () {
 
     Route::prefix('user')->group(function () {
         Route::post('validate', 'UserController@validateUser');
+        Route::post('resend-verification-email', 'UserController@resendVerificationEmail');
     });
 
     Route::group(['middleware' => 'jwt.verify'], function () {
@@ -23,4 +24,3 @@ Route::namespace('Api')->group(function () {
         Route::post('save', 'UserController@createUser');
     });
 });
-//TODO: reenviar nuevo correo de validacion 

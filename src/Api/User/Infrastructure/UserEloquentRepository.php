@@ -37,4 +37,9 @@ final class UserEloquentRepository implements UserRepository
     {
         Mail::to($email->value())->send(new RegisterVerificationMailiable($name->value(), $otpCode->value(), $expireTime));
     }
+
+    public function findByEmail(Email $email)
+    {
+        return User::where('email', $email->value())->first();
+    }
 }
