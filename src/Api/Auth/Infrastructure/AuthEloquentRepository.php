@@ -15,7 +15,7 @@ final class AuthEloquentRepository implements AuthRepository
         if (Auth::user()->active) {
             return $this->respondWithToken($token);
         } else {
-            Auth::invalidate();
+            Auth::invalidate(true);
             return [
                 'access_token' => false,
             ];
