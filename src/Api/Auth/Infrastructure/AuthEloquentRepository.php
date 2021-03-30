@@ -11,7 +11,14 @@ final class AuthEloquentRepository implements AuthRepository
     public function login(Credentials $credentials)
     {
         $token = Auth::attempt($credentials->value());
-        return $this->respondWithToken($token);
+
+        if (Auth::user() && boolval(Auth::user()->active)) {
+            return $this->respondWithToken($token);
+        } else {
+            return [
+                'access_token' => false,
+            ];
+        }
     }
 
     public function logout()
@@ -24,18 +31,18 @@ final class AuthEloquentRepository implements AuthRepository
         return $this->respondWithToken(Auth::refresh());
     }
 
+    public function me()
+    {
+        return auth()->user();
+    }
+
     protected function respondWithToken($token)
     {
         return [
             'access_token' => $token,
-            'token_type' => 'bearer',
+            'token_type' => 'Bearer',
             'expires_in' => Auth::factory()->getTTL() * 60,
             'user' => auth()->user()
         ];
-    }
-
-    public function me()
-    {
-        return auth()->user();
     }
 }
