@@ -5,6 +5,7 @@ namespace Src\Api\User\Infrastructure;
 use App\Models\User;
 use Src\Api\User\Domain\Contracts\UserValidation;
 use Src\Api\User\Domain\Exceptions\EmailAlreadyExist;
+use Src\Api\User\Domain\Exceptions\EmailNotExistError;
 use Src\Api\User\Domain\Exceptions\UserAlreadyActive;
 use Src\Api\User\Domain\Exceptions\UsernameAlreadyExists;
 use Src\Api\User\Domain\ValueObjects\Email;
@@ -28,6 +29,13 @@ final class UserValidationRepository implements UserValidation
     {
         $user = $this->findEmail($email)->active;
         if ($user) throw new UserAlreadyActive($email);
+    }
+
+    public function throwIfEmailNotExistError(Email $email)
+    {
+        $user = $this->findEmail($email);
+
+        if ($user === null) throw new EmailNotExistError($email);
     }
 
     public function findEmail(Email $email)

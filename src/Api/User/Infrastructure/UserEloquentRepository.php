@@ -2,16 +2,20 @@
 
 namespace Src\Api\User\Infrastructure;
 
-use App\Mail\Api\User\RegisterVerificationMailiable;
-use App\Models\User;
 use Carbon\Carbon;
+use App\Models\User;
+use Illuminate\Support\Str;
+use Src\Api\User\Domain\UserEntity;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Src\Api\User\Domain\ValueObjects\Name;
+use Src\Api\User\Domain\ValueObjects\Email;
+use App\Mail\Api\User\ResetPasswordMailiable;
+use Src\Api\Shared\Domain\ValueObjects\Token;
 use Src\Api\Shared\Domain\ValueObjects\OtpCode;
 use Src\Api\User\Domain\Contracts\UserRepository;
-use Src\Api\User\Domain\UserEntity;
-use Src\Api\User\Domain\ValueObjects\Email;
-use Src\Api\User\Domain\ValueObjects\Name;
+use App\Mail\Api\User\RegisterVerificationMailiable;
+use App\Models\PasswordReset;
 
 final class UserEloquentRepository implements UserRepository
 {
@@ -26,6 +30,17 @@ final class UserEloquentRepository implements UserRepository
         ]);
     }
 
+    public function generatePasswordReset(Email $email, int $expireTime)
+    {
+        $token = $this->generateToken();
+
+        $user = $this->findByEmail($email);
+
+        $this->savePasswordReset($email, $token);
+
+        $this->sendResetPasswordMail($user, $email, $token, $expireTime);
+    }
+
     public function changeActiveStatus(Email $email, bool $status)
     {
         User::where('email', $email->value())
@@ -38,6 +53,27 @@ final class UserEloquentRepository implements UserRepository
     public function sendRegisterEmailVerification(Name $name, Email $email, OtpCode $otpCode, int $expireTime)
     {
         Mail::to($email->value())->send(new RegisterVerificationMailiable($name->value(), $otpCode->value(), $expireTime));
+    }
+
+    public function sendResetPasswordMail(User $user, Email $email, Token $token, int $expireTime)
+    {
+        Mail::to($email->value())->send(new ResetPasswordMailiable($user->name, $token->value(), $expireTime));
+    }
+
+    public function generateToken()
+    {
+        $token = new Token(Str::random(60));
+        return $token;
+    }
+
+    public function savePasswordReset(Email $email, Token $token)
+    {
+        PasswordReset::where('email', $email->value())->delete();
+
+        PasswordReset::create([
+            'email' => $email->value(),
+            'token' => $token->value()
+        ]);
     }
 
     public function findByEmail(Email $email)

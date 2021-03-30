@@ -36,6 +36,7 @@ final class ResendVerificationEmailHandler implements CommandHandler
     {
         $email = new Email($command->getEmail());
 
+        $this->userValidation->throwIfEmailNotExistError($email);
         $this->userValidation->throwIfUserAlreadyActive($email);
 
         $userData = $this->userRepository->findByEmail($email);

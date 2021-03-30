@@ -10,6 +10,7 @@ Route::namespace('Api')->group(function () {
     Route::prefix('user')->group(function () {
         Route::post('validate', 'UserController@validateUser');
         Route::post('resend-verification-email', 'UserController@resendVerificationEmail');
+        Route::post('reset-password-mail', 'UserController@sendResetPasswordMail');
     });
 
     Route::group(['middleware' => 'jwt.verify'], function () {

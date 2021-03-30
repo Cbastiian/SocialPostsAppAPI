@@ -10,4 +10,5 @@ interface UserValidation
     public function throwIfEmailAlreadyExist(Email $email);
     public function throwIfUsernameAlreadyExist(Username $username);
     public function throwIfUserAlreadyActive(Email $email);
+    public function throwIfEmailNotExistError(Email $email);
 }

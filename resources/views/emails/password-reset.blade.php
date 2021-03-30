@@ -6,7 +6,7 @@
   <body style="font-family: Helvetica, Arial, sans-serif; color: rgb(103, 103, 103); width: 100%; margin: 0px; cursor: auto;background-color: #ededf2;" class="ui-sortable">
     <div data-section-wrapper="1" style="width:100%;background-color: #ededf2;font-family: Helvetica, Arial, sans-serif;font-size: 14px;color: #777777;text-align: center;line-height: 21px;padding: 20px 0 30px;" class="content-padding">
       <center>
-        <table data-section="1" cellspacing="0" cellpadding="0" width="600" class="w320" style="border-collapse: collapse;">
+        <table data-section="1" cellspacing="0" cellpadding="0" width="800" class="w320" style="border-collapse: collapse;">
           <tbody>
             <tr>
               <td class="header-lg" data-slot-container="1" style="font-family: Helvetica, Arial, sans-serif;font-size: 32px;color: #4d4d4d;text-align: center;line-height: normal;border-collapse: collapse;font-weight: 700;padding: 35px 0 0;">
@@ -32,16 +32,14 @@
                           </p>
                         </div>
                          <div class="user-msg" data-slot="text" style="padding: 10px 0px; font-size: 14px; text-align: left; color: #000000; line-height: 21px;">
-                          <p>Tu registro está casi completo
-                          </p>
-                          <p>Con el siguiente código podrás verificar tu usuario y disfrutar de la plataforma.</p>
+                          <p>Con el siguiente código podrás reestablecer tu contraseña.</p>
                         </div>
                         <div class="button" data-slot="button" data-param-padding-top="5" data-param-button-size="1" data-param-link-text="I want this" data-param-href="#povezava#" data-param-float="1" data-param-background-color="#fdb737" data-param-color="ffffff">
                           <table cellspacing="0" cellpadding="0">
                             <tr>
-                              <td align="center" width="400" height="50" bgcolor="#fdb737" style="-webkit-border-radius: 5px; -moz-border-radius: 5px; bord-radius: 5px; color: #FFFFFF; display: block;">
+                              <td align="center" width="700" height="50" bgcolor="#fdb737" style="-webkit-border-radius: 5px; -moz-border-radius: 5px; bord-radius: 5px; color: #FFFFFF; display: block;">
                                 <p style="font-size:16px; font-weight: bold; font-family: Helvetica, Arial, sans-serif; text-decoration: none; line-height:20px; width:100%; display:inline-block">
-                                  <span style="color: #FFFFFF">{{$otpCode}}</span>
+                                  <span style="color: #FFFFFF">{{$token}}</span>
                                 </p>
                               </td>
                             </tr>
@@ -50,10 +48,7 @@
                           </div>
                         </div>
                         <div class="user-msg" data-slot="text" style="padding: 10px 0px;font-size: 14px;text-align: left;color:#000000">
-                          <p>Recuerda que tienes {{$expireTime}} minutos para validar tu cuenta</p>
-                          <p>En caso de que no puedas hacerlo, puedes solicitar nuevamente el envío de este correo a través del siguiente enlace: </p>
-                          <a href="http://socialpostsappapi.test/" target="_blank">http://socialpostsappapi.test/</a>
-                          
+                          <p>Recuerda que tienes {{$expireTime}} minutos para usar este codigo</p>
                           <p style="color:#a0a0a0">
                             <br />
                             <br />

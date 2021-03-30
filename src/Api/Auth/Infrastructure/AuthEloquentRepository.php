@@ -32,6 +32,11 @@ final class AuthEloquentRepository implements AuthRepository
         return $this->respondWithToken(Auth::refresh());
     }
 
+    public function me()
+    {
+        return auth()->user();
+    }
+
     protected function respondWithToken($token)
     {
         return [
@@ -40,10 +45,5 @@ final class AuthEloquentRepository implements AuthRepository
             'expires_in' => Auth::factory()->getTTL() * 60,
             'user' => auth()->user()
         ];
-    }
-
-    public function me()
-    {
-        return auth()->user();
     }
 }
