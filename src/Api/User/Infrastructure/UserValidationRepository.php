@@ -10,7 +10,9 @@ use Src\Api\User\Domain\Exceptions\EmailAlreadyExist;
 use Src\Api\User\Domain\Exceptions\EmailNotExistError;
 use Src\Api\User\Domain\Exceptions\UserAlreadyActive;
 use Src\Api\User\Domain\Exceptions\UsernameAlreadyExists;
+use Src\Api\User\Domain\Exceptions\UserNotExistError;
 use Src\Api\User\Domain\ValueObjects\Email;
+use Src\Api\User\Domain\ValueObjects\UserId;
 use Src\Api\User\Domain\ValueObjects\Username;
 
 final class UserValidationRepository implements UserValidation
@@ -38,6 +40,18 @@ final class UserValidationRepository implements UserValidation
         $user = $this->findEmail($email);
 
         if ($user === null) throw new EmailNotExistError($email);
+    }
+
+    public function throwIfUserNotExist(UserId $userId)
+    {
+        $user = $this->findUser($userId);
+
+        if ($user === null) throw new UserNotExistError($userId);
+    }
+
+    public function findUser(UserId $userId)
+    {
+        return User::where('id', $userId->value())->first();
     }
 
     public function findEmail(Email $email)
