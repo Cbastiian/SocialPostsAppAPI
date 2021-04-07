@@ -16,7 +16,9 @@ use Src\Api\Shared\Domain\ValueObjects\OtpCode;
 use Src\Api\User\Domain\Contracts\UserRepository;
 use App\Mail\Api\User\RegisterVerificationMailiable;
 use App\Models\PasswordReset;
+use Src\Api\User\Domain\ValueObjects\Bio;
 use Src\Api\User\Domain\ValueObjects\Password;
+use Src\Api\User\Domain\ValueObjects\UserId;
 
 final class UserEloquentRepository implements UserRepository
 {
@@ -56,6 +58,14 @@ final class UserEloquentRepository implements UserRepository
         User::where('email', $email->value())
             ->update([
                 'password' => Hash::make($password->value())
+            ]);
+    }
+
+    public function updateBio(UserId $userId, Bio $bio)
+    {
+        User::where('id', $userId->value())
+            ->update([
+                'bio' => $bio->value()
             ]);
     }
 

@@ -7,6 +7,7 @@ use App\Http\Requests\Api\User\CreateUserRequest;
 use App\Http\Requests\Api\User\ResendVerificationEmailRequest;
 use App\Http\Requests\Api\User\ResetPasswordRequest;
 use App\Http\Requests\Api\User\SendResetPasswordEmailRequest;
+use App\Http\Requests\Api\User\UpdateUserBioRequest;
 use App\Http\Requests\Api\User\ValidateUserRequest;
 use Exception;
 use Src\Api\Shared\Domain\Contracts\CommandBus;
@@ -14,6 +15,7 @@ use Src\Api\Shared\Domain\Exceptions\DomainError;
 use Src\Api\User\Application\PasswordResetEmailSender\SendPasswordResetEmailCommand;
 use Src\Api\User\Application\PasswordReseter\PasswordResetCommand;
 use Src\Api\User\Application\ResendVerificationEmail\ResendVerificationEmailCommand;
+use Src\Api\User\Application\UserBioUpdater\UpdateUserBioCommand;
 use Src\Api\User\Application\UserCreator\CreateUserCommand;
 use Src\Api\User\Application\UserEmailValidator\UserEmailValidationCommand;
 
@@ -140,6 +142,32 @@ class UserController extends Controller
             $this->commandBus->execute($command);
 
             return response()->json(['message' => 'Password changed succesfully'], 201);
+        } catch (DomainError $error) {
+            return response()->json([
+                "code" => $error->errorCode(),
+                "detail" => $error->errorMessage()
+            ], 422);
+        } catch (Exception $th) {
+            return response()->json([
+                'code' => $th->getCode(),
+                'detail' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    public function updateBio(UpdateUserBioRequest $updateUserBioRequest)
+    {
+        try {
+            $data = $updateUserBioRequest->data();
+
+            $command = new UpdateUserBioCommand(
+                $data->userId,
+                $data->bio
+            );
+
+            $this->commandBus->execute($command);
+
+            return response()->json(['message' => 'Bio updated succesfully'], 204);
         } catch (DomainError $error) {
             return response()->json([
                 "code" => $error->errorCode(),
