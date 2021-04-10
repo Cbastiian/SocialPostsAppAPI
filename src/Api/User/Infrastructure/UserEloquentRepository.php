@@ -5,20 +5,22 @@ namespace Src\Api\User\Infrastructure;
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Support\Str;
+use App\Models\PasswordReset;
 use Src\Api\User\Domain\UserEntity;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Src\Api\User\Domain\ValueObjects\Bio;
 use Src\Api\User\Domain\ValueObjects\Name;
 use Src\Api\User\Domain\ValueObjects\Email;
+use Src\Api\User\Domain\ValueObjects\Photo;
+use Src\Api\User\Domain\ValueObjects\UserId;
 use App\Mail\Api\User\ResetPasswordMailiable;
 use Src\Api\Shared\Domain\ValueObjects\Token;
+use Src\Api\User\Domain\ValueObjects\Password;
 use Src\Api\Shared\Domain\ValueObjects\OtpCode;
 use Src\Api\User\Domain\Contracts\UserRepository;
 use App\Mail\Api\User\RegisterVerificationMailiable;
-use App\Models\PasswordReset;
-use Src\Api\User\Domain\ValueObjects\Bio;
-use Src\Api\User\Domain\ValueObjects\Password;
-use Src\Api\User\Domain\ValueObjects\UserId;
 
 final class UserEloquentRepository implements UserRepository
 {
@@ -67,6 +69,16 @@ final class UserEloquentRepository implements UserRepository
             ->update([
                 'bio' => $bio->value()
             ]);
+    }
+
+    public function updateProfilePhoto(Photo $photo)
+    {
+        User::where([
+            ['id', Auth::user()->id],
+            ['active', true]
+        ])->update([
+            'photo' => $photo->value()
+        ]);
     }
 
     public function sendRegisterEmailVerification(Name $name, Email $email, OtpCode $otpCode, int $expireTime)
