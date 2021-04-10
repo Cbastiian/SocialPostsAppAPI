@@ -28,7 +28,7 @@ Route::namespace('Api')->group(function () {
             Route::post('reset-password-mail', 'UserController@sendResetPasswordMail');
             Route::post('reset-password', 'UserController@resetPassword');
             Route::post('update-bio', 'UserController@updateBio');
-            Route::put('update-profile-photo', 'UserController@updatProfilePhoto');
+            Route::post('update-profile-photo', 'UserController@updatProfilePhoto');
         });
 
     });

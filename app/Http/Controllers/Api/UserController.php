@@ -183,7 +183,7 @@ class UserController extends Controller
         }
     }
 
-    public function updatProfilePhoto(UpdateUserProfilePhotoRequest $updateUserProfilePhotoRequest )
+    public function updatProfilePhoto(UpdateUserProfilePhotoRequest $updateUserProfilePhotoRequest)
     {
         try{
             $data = $updateUserProfilePhotoRequest->data();

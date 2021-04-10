@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Src\Api\User\Application\ProfilePhotoUpdater;
 
+use Src\Api\User\Domain\ValueObjects\Photo;
 use Src\Api\Shared\Application\Images\ImageCreator;
 use Src\Api\Shared\Domain\Contracts\CommandHandler;
 
@@ -22,8 +23,10 @@ final class UpdateProfilePhotoHandler implements CommandHandler
 
     public function execute($command)
     {
-        $photo = $this->imageCreator->__invoke($command->getPhoto(), 'img/profile/');
-
+        $userPhoto = $this->imageCreator->__invoke($command->getPhoto(), 'img/profile/');
+        
+        $photo = new Photo($userPhoto->imageName);
+        
         $this->profilePhotoUpdater->__invoke($photo);
     }
 }
