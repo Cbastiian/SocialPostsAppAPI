@@ -2,8 +2,8 @@
 
 namespace Src\Api\Shared\Domain\Contracts;
 
-use Src\Api\Shared\Domain\ValueObjects\OtpCode;
 use Src\Api\Shared\Domain\ValueObjects\Token;
+use Src\Api\Shared\Domain\ValueObjects\OtpCode;
 
 interface SharedRepository
 {
@@ -11,4 +11,5 @@ interface SharedRepository
     public function otpCodeValidator(string $identifier, OtpCode $otpCode);
     public function findToken(Token $token);
     public function deletePasswordReset(Token $token);
+    public function resourceCodeGenerator();
 }
