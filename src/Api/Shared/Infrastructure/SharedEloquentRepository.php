@@ -2,11 +2,12 @@
 
 namespace Src\Api\Shared\Infrastructure;
 
-use App\Models\PasswordReset;
-use Src\Api\Shared\Domain\Contracts\SharedRepository;
 use Ichtrojan\Otp\Otp;
-use Src\Api\Shared\Domain\ValueObjects\OtpCode;
+use Illuminate\Support\Str;
+use App\Models\PasswordReset;
 use Src\Api\Shared\Domain\ValueObjects\Token;
+use Src\Api\Shared\Domain\ValueObjects\OtpCode;
+use Src\Api\Shared\Domain\Contracts\SharedRepository;
 
 final class SharedEloquentRepository implements SharedRepository
 {
@@ -30,5 +31,10 @@ final class SharedEloquentRepository implements SharedRepository
     public function deletePasswordReset(Token $token)
     {
         PasswordReset::where('token', $token->value())->delete();
+    }
+
+    public function resourceCodeGenerator()
+    {
+        return Str::random(50);
     }
 }
