@@ -185,7 +185,7 @@ class UserController extends Controller
 
     public function updatProfilePhoto(UpdateUserProfilePhotoRequest $updateUserProfilePhotoRequest)
     {
-        try{
+        try {
             $data = $updateUserProfilePhotoRequest->data();
 
             $command = new UpdateProfilePhotoCommand($data->photo);

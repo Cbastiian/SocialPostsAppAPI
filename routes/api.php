@@ -33,11 +33,10 @@ Route::namespace('Api')->group(function () {
             Route::post('update-profile-photo', 'UserController@updatProfilePhoto');
         });
 
-        Route::prefix('post')->group(function() {
+        Route::prefix('post')->group(function () {
 
-            Route::post('save','PostController@savePost');
+            Route::post('save', 'PostController@savePost');
         });
-
     });
 });
 //TODO: implementacion de sistema de seguidores

@@ -7,7 +7,7 @@ namespace Src\Api\User\Application\ProfilePhotoUpdater;
 use Src\Api\User\Domain\ValueObjects\Photo;
 use Src\Api\User\Domain\Contracts\UserRepository;
 
-final class ProfilePhotoUpdater 
+final class ProfilePhotoUpdater
 {
     private UserRepository $userRepository;
 
@@ -21,4 +21,3 @@ final class ProfilePhotoUpdater
         $this->userRepository->updateProfilePhoto($photo);
     }
 }
-

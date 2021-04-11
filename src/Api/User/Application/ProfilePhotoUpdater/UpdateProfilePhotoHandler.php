@@ -15,8 +15,8 @@ final class UpdateProfilePhotoHandler implements CommandHandler
 
     public function __construct(
         ProfilePhotoUpdater $profilePhotoUpdater,
-        ImageCreator $imageCreator)
-    {
+        ImageCreator $imageCreator
+    ) {
         $this->profilePhotoUpdater = $profilePhotoUpdater;
         $this->imageCreator = $imageCreator;
     }
@@ -24,9 +24,9 @@ final class UpdateProfilePhotoHandler implements CommandHandler
     public function execute($command)
     {
         $userPhoto = $this->imageCreator->__invoke($command->getPhoto(), 'img/profile/');
-        
+
         $photo = new Photo($userPhoto->imageName);
-        
+
         $this->profilePhotoUpdater->__invoke($photo);
     }
 }

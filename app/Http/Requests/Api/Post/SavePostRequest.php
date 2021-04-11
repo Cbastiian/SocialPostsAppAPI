@@ -8,20 +8,20 @@ use Illuminate\Support\Facades\Auth;
 
 class SavePostRequest extends BaseFormRequest
 {
-    public function authorize():bool
+    public function authorize(): bool
     {
         return true;
     }
 
-    public function rules():array
+    public function rules(): array
     {
         return [
-            'content' => ['required','string'],
+            'content' => ['required', 'string'],
             'file' => ['file']
         ];
     }
 
-    public function data():SavePostData
+    public function data(): SavePostData
     {
         return new SavePostData([
             'content' => $this->input('content'),

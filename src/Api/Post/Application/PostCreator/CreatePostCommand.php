@@ -17,8 +17,7 @@ final class CreatePostCommand implements Command
         string $content,
         ?UploadedFile $file,
         int $userId
-    )
-    {
+    ) {
         $this->content = $content;
         $this->file = $file;
         $this->userId = $userId;

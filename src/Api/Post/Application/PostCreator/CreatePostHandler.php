@@ -23,8 +23,7 @@ final class CreatePostHandler implements CommandHandler
         PostCreator $postCreator,
         ImageCreator $imageCreator,
         CodeResourceGenerator $codeReosurceGenerator
-    )
-    {
+    ) {
         $this->postCreator = $postCreator;
         $this->imageCreator = $imageCreator;
         $this->codeReosurceGenerator = $codeReosurceGenerator;
@@ -36,13 +35,12 @@ final class CreatePostHandler implements CommandHandler
         $code = new Code($this->codeReosurceGenerator->__invoke());
 
         $postFile = $command->getFile() ?
-                    $this->imageCreator->__invoke($command->getFile(),'img/post/') : 
-                    (object)['imageName' => '' ];
-                    
+            $this->imageCreator->__invoke($command->getFile(), 'img/post/') :
+            (object)['imageName' => ''];
+
         $file = new File($postFile->imageName);
         $userId = new UserId($command->getUserId());
-        
+
         return $this->postCreator->__invoke($content, $code, $file, $userId);
     }
 }
-

@@ -25,9 +25,8 @@ final class PostCreator
         Code $code,
         ?File $file,
         UserId $userId
-    )
-    {
-        $post = PostEntity::create($content,$code,$file,$userId);
+    ) {
+        $post = PostEntity::create($content, $code, $file, $userId);
 
         return $this->postRepository->savePost($post);
     }

@@ -12,8 +12,7 @@ final class CodeResourceGenerator
 
     public function __construct(
         SharedRepository $sharedRepository
-    )
-    {
+    ) {
         $this->sharedRepository = $sharedRepository;
     }
 

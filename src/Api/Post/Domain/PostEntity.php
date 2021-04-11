@@ -21,8 +21,7 @@ final class PostEntity
         Code $code,
         ?File $file,
         UserId $userId
-    )
-    {
+    ) {
         $this->content = $content;
         $this->code = $code;
         $this->file = $file;
@@ -34,8 +33,7 @@ final class PostEntity
         Code $code,
         ?File $file,
         UserId $userId
-    )
-    {
+    ) {
         return  new self(
             $content,
             $code,
@@ -47,7 +45,7 @@ final class PostEntity
     /***
      * get the value of contnet
      */
-    public function getContent():Content
+    public function getContent(): Content
     {
         return $this->content;
     }
@@ -55,7 +53,7 @@ final class PostEntity
     /***
      * get the value of code
      */
-    public function getCode():Code
+    public function getCode(): Code
     {
         return $this->code;
     }
@@ -63,7 +61,7 @@ final class PostEntity
     /***
      * get the value of file
      */
-    public function getFile():File
+    public function getFile(): File
     {
         return $this->file;
     }
@@ -71,12 +69,12 @@ final class PostEntity
     /***
      * get the value of userId
      */
-    public function getUserId():UserId
+    public function getUserId(): UserId
     {
         return $this->userId;
     }
-    
-    public function toArray():array
+
+    public function toArray(): array
     {
         return [
             'content' => $this->getContent()->value(),

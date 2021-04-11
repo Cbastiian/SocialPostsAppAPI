@@ -20,7 +20,7 @@ class PostController extends Controller
 
     public function savePost(SavePostRequest $savePostRequest)
     {
-        try{
+        try {
             $data = $savePostRequest->data();
 
             $command = new CreatePostCommand(
