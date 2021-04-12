@@ -13,6 +13,9 @@ Route::namespace('Api')->group(function () {
 
         Route::post('save', 'UserController@createUser');
         Route::post('validate', 'UserController@validateUser');
+        Route::post('resend-verification-email', 'UserController@resendVerificationEmail');
+        Route::post('reset-password-mail', 'UserController@sendResetPasswordMail');
+        Route::post('reset-password', 'UserController@resetPassword');
     });
 
     Route::group(['middleware' => 'jwt.verify'], function () {
@@ -26,9 +29,6 @@ Route::namespace('Api')->group(function () {
 
         Route::prefix('user')->group(function () {
 
-            Route::post('resend-verification-email', 'UserController@resendVerificationEmail');
-            Route::post('reset-password-mail', 'UserController@sendResetPasswordMail');
-            Route::post('reset-password', 'UserController@resetPassword');
             Route::post('update-bio', 'UserController@updateBio');
             Route::post('update-profile-photo', 'UserController@updatProfilePhoto');
         });
@@ -40,4 +40,4 @@ Route::namespace('Api')->group(function () {
     });
 });
 //TODO: implementacion de sistema de seguidores
-//!: corregir subida de foto de perfil cuando se crea un usuario
+//TODO: implementacion de sistema de comentarios de posts

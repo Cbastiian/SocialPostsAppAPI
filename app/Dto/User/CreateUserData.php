@@ -13,5 +13,5 @@ final class CreateUserData extends DataTransferObject
     public string $email;
     public string $username;
     public string $password;
-    public UploadedFile $photo;
+    public ?UploadedFile $photo;
 }

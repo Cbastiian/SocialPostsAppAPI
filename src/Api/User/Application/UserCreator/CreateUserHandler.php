@@ -9,11 +9,11 @@ use Src\Api\User\Domain\ValueObjects\Email;
 use Src\Api\User\Domain\ValueObjects\Photo;
 use Src\Api\User\Domain\ValueObjects\Password;
 use Src\Api\User\Domain\ValueObjects\Username;
+use Src\Api\Shared\Domain\ValueObjects\OtpCode;
 use Src\Api\User\Domain\Contracts\UserValidation;
 use Src\Api\Shared\Application\Images\ImageCreator;
 use Src\Api\Shared\Domain\Contracts\CommandHandler;
 use Src\Api\Shared\Domain\Contracts\SharedRepository;
-use Src\Api\Shared\Domain\ValueObjects\OtpCode;
 
 final class CreateUserHandler implements CommandHandler
 {
@@ -47,7 +47,9 @@ final class CreateUserHandler implements CommandHandler
         $this->userValidation->throwIfEmailAlreadyExist($email);
         $this->userValidation->throwIfUsernameAlreadyExist($username);
 
-        $userPhoto = $this->imageCreator->__invoke($command->getPhoto(), 'img/profile/');
+        $userPhoto = $command->getPhoto() ?
+            $this->imageCreator->__invoke($command->getPhoto(), 'img/profile/') :
+            (object)['imageName' => 'img/profile/default.png'];
 
         $photo = new Photo($userPhoto->imageName);
 

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Src\Api\User\Domain;
 
-use Src\Api\User\Domain\ValueObjects\Email;
 use Src\Api\User\Domain\ValueObjects\Name;
-use Src\Api\User\Domain\ValueObjects\Password;
+use Src\Api\User\Domain\ValueObjects\Email;
 use Src\Api\User\Domain\ValueObjects\Photo;
+use Src\Api\User\Domain\ValueObjects\Password;
 use Src\Api\User\Domain\ValueObjects\Username;
 
 final class UserEntity
@@ -16,14 +16,14 @@ final class UserEntity
     private Email $email;
     private Username $username;
     private Password $password;
-    private Photo $photo;
+    private ?Photo $photo;
 
     public function __construct(
         Name $name,
         Email $email,
         Username $username,
         Password $password,
-        Photo $photo
+        ?Photo $photo
     ) {
         $this->name = $name;
         $this->email = $email;
@@ -37,7 +37,7 @@ final class UserEntity
         Email $email,
         Username $username,
         Password $password,
-        Photo $photo
+        ?Photo $photo
     ) {
         return new self(
             $name,
