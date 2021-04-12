@@ -13,14 +13,14 @@ final class CreateUserCommand implements Command
     private string $email;
     private string $username;
     private string $password;
-    private UploadedFile $photo;
+    private ?UploadedFile $photo;
 
     public function __construct(
         string $name,
         string $email,
         string $username,
         string $password,
-        UploadedFile $photo
+        ?UploadedFile $photo
     ) {
         $this->name = $name;
         $this->email = $email;
