@@ -37,6 +37,11 @@ Route::namespace('Api')->group(function () {
 
             Route::post('save', 'PostController@savePost');
         });
+
+        Route::prefix('comment')->group(function () {
+
+            Route::post('save', 'CommentController@saveComment');
+        });
     });
 });
 //TODO: implementacion de sistema de seguidores
