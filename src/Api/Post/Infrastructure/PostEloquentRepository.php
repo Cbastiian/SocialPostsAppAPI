@@ -12,4 +12,9 @@ final class PostEloquentRepository implements PostRepository
     {
         return Post::create($postEntity->toArray());
     }
+
+    public function getPosts()
+    {
+        return Post::get();
+    }
 }

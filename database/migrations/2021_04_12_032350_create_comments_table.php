@@ -28,6 +28,8 @@ class CreateCommentsTable extends Migration
                 ->references('id')
                 ->on('users');
 
+            $table->string('active')->default(true);
+
             $table->timestamps();
         });
     }

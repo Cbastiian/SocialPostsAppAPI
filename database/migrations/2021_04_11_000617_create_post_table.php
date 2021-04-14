@@ -14,21 +14,21 @@ class CreatePostTable extends Migration
     public function up()
     {
         Schema::create('post', function (Blueprint $table) {
-             $table->id();
+            $table->id();
 
-            $table->longText( 'content' );
+            $table->longText('content');
 
-            $table->string( 'code' );
+            $table->string('code');
 
-            $table->bigInteger( 'user_id' )->unsigned();
-            $table->foreign( 'user_id' )
-                    ->references( 'id' )
-                    ->on( 'users' );
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users');
 
             $table->string('file')->nullable();
+            $table->string('active')->default(true);
 
             $table->timestamps();
-
         });
     }
 
