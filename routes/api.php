@@ -47,5 +47,5 @@ Route::namespace('Api')->group(function () {
 });
 
 //TODO: implementacion de sistema de seguidores
-//TODO: implementcion par obtener poosts segun usuarios seguidos00
+//TODO: implementcion par obtener posts segun usuarios seguidos
 //TODO: implmentction de reporte de comentrios
