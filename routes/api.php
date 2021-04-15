@@ -36,8 +36,16 @@ Route::namespace('Api')->group(function () {
         Route::prefix('post')->group(function () {
 
             Route::post('save', 'PostController@savePost');
+            Route::get('get', 'PostController@getPosts');
+        });
+
+        Route::prefix('comment')->group(function () {
+
+            Route::post('save', 'CommentController@saveComment');
         });
     });
 });
+
 //TODO: implementacion de sistema de seguidores
-//TODO: implementacion de sistema de comentarios de posts
+//TODO: implementcion par obtener posts segun usuarios seguidos
+//TODO: implmentction de reporte de comentrios

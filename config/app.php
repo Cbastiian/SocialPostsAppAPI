@@ -184,7 +184,8 @@ return [
         App\Providers\Api\TestProvider::class,
         App\Providers\Api\AuthProvider::class,
         App\Providers\Api\UserProvider::class,
-        App\Providers\Api\PostProvider::class
+        App\Providers\Api\PostProvider::class,
+        App\Providers\Api\CommentProvider::class
 
     ],
 
