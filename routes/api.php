@@ -31,6 +31,9 @@ Route::namespace('Api')->group(function () {
 
             Route::post('update-bio', 'UserController@updateBio');
             Route::post('update-profile-photo', 'UserController@updatProfilePhoto');
+            Route::post('follow-user', 'UserController@followUser');
+            Route::post('unfollow-user', 'UserController@unfollowUser');
+            Route::get('get-followings', 'UserController@getFollowers');
         });
 
         Route::prefix('post')->group(function () {

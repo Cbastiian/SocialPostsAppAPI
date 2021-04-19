@@ -20,6 +20,9 @@ interface UserRepository
     public function changePassword(Email $email, Password $password);
     public function updateBio(UserId $userId, Bio $bio);
     public function updateProfilePhoto(Photo $photo);
+    public function followUser(UserId $userId);
+    public function unfollowUser(UserId $userId);
+    public function getFollowings();
     public function sendRegisterEmailVerification(Name $name, Email $email, OtpCode $otpCode, int $expireTime);
     public function findByEmail(Email $email);
 }

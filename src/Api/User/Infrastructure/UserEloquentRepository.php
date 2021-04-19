@@ -81,6 +81,31 @@ final class UserEloquentRepository implements UserRepository
         ]);
     }
 
+    public function followUser(UserId $followingUserId)
+    {
+        $user = $this->findById($followingUserId);
+
+        $authUserId = new UserId(Auth::user()->id);
+        $authUser = $this->findById($authUserId);
+
+        return $authUser->follow($user);
+    }
+
+    public function unfollowUser(UserId $followingUserId)
+    {
+        $user = $this->findById($followingUserId);
+
+        $authUserId = new UserId(Auth::user()->id);
+        $authUser = $this->findById($authUserId);
+
+        return $authUser->unfollow($user);
+    }
+
+    public function getFollowings()
+    {
+        return User::where('id', Auth::user()->id)->first()->followings()->distinct()->get();
+    }
+
     public function sendRegisterEmailVerification(Name $name, Email $email, OtpCode $otpCode, int $expireTime)
     {
         Mail::to($email->value())->send(new RegisterVerificationMailiable($name->value(), $otpCode->value(), $expireTime));
@@ -110,5 +135,10 @@ final class UserEloquentRepository implements UserRepository
     public function findByEmail(Email $email)
     {
         return User::where('email', $email->value())->first();
+    }
+
+    public function findById(UserId $userId)
+    {
+        return User::where('id', $userId->value())->first();
     }
 }
