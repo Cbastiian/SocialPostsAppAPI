@@ -1,0 +1,52 @@
+[
+    {
+        "name":"Es spam",
+        "description":"El registro puede contener spam",
+        "code":"SPAM"
+    },
+    {
+        "name":"Desnudos o actividad sexual",
+        "description":"El registro puede contener contenido sexual no apto para menores",
+        "code":"NUDITY"
+    },
+    {
+        "name":"Lenguage o simbolos que incitan al odio",
+        "description":"El registro puede contener incitacion al odio",
+        "code":"HATE"
+    },
+    {
+        "name":"Es spam",
+        "description":"El registro puede contener spam",
+        "code":"SPAM"
+    },
+    {
+        "name":"Es spam",
+        "description":"El registro puede contener spam",
+        "code":"SPAM"
+    },
+    {
+        "name":"Es spam",
+        "description":"El registro puede contener spam",
+        "code":"SPAM"
+    },
+    {
+        "name":"Es spam",
+        "description":"El registro puede contener spam",
+        "code":"SPAM"
+    },
+    {
+        "name":"Es spam",
+        "description":"El registro puede contener spam",
+        "code":"SPAM"
+    },
+    {
+        "name":"Es spam",
+        "description":"El registro puede contener spam",
+        "code":"SPAM"
+    },
+    {
+        "name":"Es spam",
+        "description":"El registro puede contener spam",
+        "code":"SPAM"
+    }
+]
