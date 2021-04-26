@@ -22,7 +22,9 @@ final class FollowUserHandler implements CommandHandler
     public function execute($command)
     {
         $followingUserId = new UserId($command->getFollowingUserId());
+
         $this->userValidation->throwIfUserNotExist($followingUserId);
+        $this->userValidation->thorwIfUserInactive($followingUserId);
 
         return  $this->userFollower->__invoke($followingUserId);
     }
