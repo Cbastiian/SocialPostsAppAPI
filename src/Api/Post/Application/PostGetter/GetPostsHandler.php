@@ -14,7 +14,7 @@ final  class GetPostsHandler implements CommandHandler
 {
     private PostGetter $postGetter;
     private CommentsGetter $commnetsGetter;
-    private  UserRepository $userRepository;
+    private UserRepository $userRepository;
 
     public function __construct(
         PostGetter $postGetter,
