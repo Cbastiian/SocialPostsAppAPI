@@ -60,6 +60,7 @@ class PostController extends Controller
                 "detail" => $error->errorMessage()
             ], 422);
         } catch (Exception $th) {
+            return  $th;
             return response()->json([
                 'code' => $th->getCode(),
                 'detail' => $th->getMessage()

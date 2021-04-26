@@ -4,6 +4,7 @@ namespace Src\Api\Post\Infrastructure;
 
 use App\Models\Post;
 use Src\Api\Post\Domain\PostEntity;
+use Src\Api\User\Domain\ValueObjects\UserId;
 use Src\Api\Post\Domain\Contracts\PostRepository;
 
 final class PostEloquentRepository implements PostRepository
@@ -13,8 +14,8 @@ final class PostEloquentRepository implements PostRepository
         return Post::create($postEntity->toArray());
     }
 
-    public function getPosts()
+    public function getPosts(UserId $userId)
     {
-        return Post::get();
+        return Post::where('user_id', $userId)->get();
     }
 }

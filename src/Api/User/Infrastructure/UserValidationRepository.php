@@ -2,18 +2,19 @@
 
 namespace Src\Api\User\Infrastructure;
 
-use App\Models\PasswordReset;
 use App\Models\User;
-use Src\Api\Shared\Domain\ValueObjects\Token;
-use Src\Api\User\Domain\Contracts\UserValidation;
-use Src\Api\User\Domain\Exceptions\EmailAlreadyExist;
-use Src\Api\User\Domain\Exceptions\EmailNotExistError;
-use Src\Api\User\Domain\Exceptions\UserAlreadyActive;
-use Src\Api\User\Domain\Exceptions\UsernameAlreadyExists;
-use Src\Api\User\Domain\Exceptions\UserNotExistError;
+use App\Models\PasswordReset;
 use Src\Api\User\Domain\ValueObjects\Email;
 use Src\Api\User\Domain\ValueObjects\UserId;
+use Src\Api\Shared\Domain\ValueObjects\Token;
 use Src\Api\User\Domain\ValueObjects\Username;
+use Src\Api\User\Domain\Contracts\UserValidation;
+use Src\Api\User\Domain\Exceptions\EmailAlreadyExist;
+use Src\Api\User\Domain\Exceptions\UserAlreadyActive;
+use Src\Api\User\Domain\Exceptions\UserInactiveError;
+use Src\Api\User\Domain\Exceptions\UserNotExistError;
+use Src\Api\User\Domain\Exceptions\EmailNotExistError;
+use Src\Api\User\Domain\Exceptions\UsernameAlreadyExists;
 
 final class UserValidationRepository implements UserValidation
 {
@@ -47,6 +48,13 @@ final class UserValidationRepository implements UserValidation
         $user = $this->findUser($userId);
 
         if ($user === null) throw new UserNotExistError($userId);
+    }
+
+    public function thorwIfUserInactive(UserId $userId)
+    {
+        $user = $this->findUser($userId);
+
+        if (!boolval($user->active)) throw new UserInactiveError($userId);
     }
 
     public function findUser(UserId $userId)
