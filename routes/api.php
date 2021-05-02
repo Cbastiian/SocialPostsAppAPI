@@ -46,6 +46,11 @@ Route::namespace('Api')->group(function () {
 
             Route::post('save', 'CommentController@saveComment');
         });
+
+        Route::prefix('report')->group(function () {
+
+            Route::post('save', 'ReportController@saveReport');
+        });
     });
 });
 
