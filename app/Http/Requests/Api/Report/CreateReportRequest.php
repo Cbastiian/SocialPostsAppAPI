@@ -26,7 +26,7 @@ class CreateReportRequest extends BaseFormRequest
     {
         return new CreateReportData([
             'reasonId' => intval($this->input('reasonId')),
-            'reportElementType' => $this->input('reportElementType'),
+            'reportElementType' => strtoupper($this->input('reportElementType')),
             'reportElementId' => intval($this->input('reportElementId')),
             'reportUserId' => intval(Auth::user()->id)
         ]);

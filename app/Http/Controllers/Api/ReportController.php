@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Src\Api\Shared\Domain\Contracts\CommandBus;
+use Src\Api\Shared\Domain\Exceptions\DomainError;
 use App\Http\Requests\Api\Report\CreateReportRequest;
 use Src\Api\Reports\Application\ReportCreator\CreateReportCommand;
 
