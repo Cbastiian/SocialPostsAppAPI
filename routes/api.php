@@ -53,6 +53,4 @@ Route::namespace('Api')->group(function () {
         });
     });
 });
-
-//TODO: implementcion par obtener posts segun usuarios seguidos
 //TODO: implmentction de reporte de comentrios
