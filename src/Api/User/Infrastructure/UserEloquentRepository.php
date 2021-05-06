@@ -134,7 +134,16 @@ final class UserEloquentRepository implements UserRepository
 
     public function getReportedUsers()
     {
-        return User::join('reports', 'reports.reported_element_id', 'users.id')
+        return User::join('reports', 'reports.report_element_id', 'users.id')
+            ->join('report_reasons', 'report_reasons.id', '=', 'reports.reason_id')
+            ->join('users as report_user', 'report_user.id', '=', 'reports.report_user_id')
+            ->select(
+                'users.name as reported_user_name',
+                'users.email',
+                'reports.created_at as report_date',
+                'report_reasons.name as reason_name',
+                'report_user.name as reporting_user'
+            )
             ->where('reports.report_element_type', 'USER')
             ->get();
     }

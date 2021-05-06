@@ -14,10 +14,11 @@ final class PostReportStrategy implements ReportElementStrategy
     private ListReportedPost $listReportedPost;
 
     public function __construct(
-        $postValidation = null,
-        $listReportedPost = null
+        ?PostValidation $postValidation,
+        ListReportedPost $listReportedPost
     ) {
         $this->postValidation = $postValidation;
+        $this->listReportedPost = $listReportedPost;
     }
 
     public function executeElementValidtion(ReportElementId $reportElementId)

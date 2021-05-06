@@ -50,6 +50,7 @@ final class ReportGetter
         $strategyData = $this->getStrategy($reportElementType);
 
         $context = new ReportElementContext($strategyData);
+
         return $context->executeGetterStrategy();
     }
 

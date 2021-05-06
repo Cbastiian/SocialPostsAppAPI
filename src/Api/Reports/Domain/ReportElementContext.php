@@ -21,6 +21,6 @@ final class ReportElementContext
 
     public function executeGetterStrategy()
     {
-        $this->reportElementStrategy->executeElementGetter();
+        return $this->reportElementStrategy->executeElementGetter();
     }
 }

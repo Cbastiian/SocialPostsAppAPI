@@ -20,7 +20,7 @@ class GetReportsRequest extends FormRequest
     public function data(): GetReportsData
     {
         return new GetReportsData([
-            'reportElementType' => request()->reportElementType
+            'reportElementType' => strtoupper(request()->reportElementType)
         ]);
     }
 }

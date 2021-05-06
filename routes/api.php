@@ -50,6 +50,7 @@ Route::namespace('Api')->group(function () {
         Route::prefix('report')->group(function () {
 
             Route::post('save', 'ReportController@saveReport');
+            Route::get('get/{reportElementType}', 'ReportController@getReports');
         });
     });
 });

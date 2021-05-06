@@ -16,7 +16,7 @@ final class GetReportsHandler implements CommandHandler
     public function __construct(ReportGetter $reportGetter, ReportValidation $reportValidation)
     {
         $this->reportGetter = $reportGetter;
-        $this->reportGetter = $reportGetter;
+        $this->reportValidation = $reportValidation;
     }
 
     public function execute($command)

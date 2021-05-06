@@ -17,5 +17,6 @@ final class ListReportedUsers
 
     public function __invoke()
     {
+        return $this->userRepository->getReportedUsers();
     }
 }
