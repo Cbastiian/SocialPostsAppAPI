@@ -18,4 +18,9 @@ final class ReportElementContext
     {
         $this->reportElementStrategy->executeElementValidtion($reportElementId);
     }
+
+    public function executeGetterStrategy()
+    {
+        $this->reportElementStrategy->executeElementGetter();
+    }
 }

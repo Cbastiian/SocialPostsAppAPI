@@ -132,6 +132,13 @@ final class UserEloquentRepository implements UserRepository
         ]);
     }
 
+    public function getReportedUsers()
+    {
+        return User::join('reports', 'reports.reported_element_id', 'users.id')
+            ->where('reports.report_element_type', 'USER')
+            ->get();
+    }
+
     public function findByEmail(Email $email)
     {
         return User::where('email', $email->value())->first();

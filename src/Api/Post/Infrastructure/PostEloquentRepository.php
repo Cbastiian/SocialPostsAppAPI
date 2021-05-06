@@ -18,4 +18,11 @@ final class PostEloquentRepository implements PostRepository
     {
         return Post::where('user_id', $userId)->get();
     }
+
+    public function getReportedPost()
+    {
+        return Post::join('reports', 'reports.reported_element_id', 'post.id')
+            ->where('reports.report_element_type', 'POST')
+            ->get();
+    }
 }
