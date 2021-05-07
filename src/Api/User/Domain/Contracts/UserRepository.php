@@ -25,5 +25,6 @@ interface UserRepository
     public function getFollowings();
     public function sendRegisterEmailVerification(Name $name, Email $email, OtpCode $otpCode, int $expireTime);
     public function getReportedUsers();
+    public function assignRoles(UserId $userId);
     public function findByEmail(Email $email);
 }

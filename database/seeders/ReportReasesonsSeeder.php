@@ -10,7 +10,7 @@ class ReportReasesonsSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('report_reasons')->truncate();
+        DB::table('report_reasons')->delete();
         $json = File::get('database/data/report_reasons.json');
         $data = json_decode($json);
 

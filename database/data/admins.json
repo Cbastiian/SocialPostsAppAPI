@@ -1,0 +1,26 @@
+[
+    {
+        "name":"Admin1",
+        "email":"admin1@email.com",
+        "username":"admin1",
+        "password":"admin1"
+    },
+    {
+        "name":"Admin2",
+        "email":"admin2@email.com",
+        "username":"admin2",
+        "password":"admin2"
+    },
+    {
+        "name":"Admin3",
+        "email":"admin3@email.com",
+        "username":"admin3",
+        "password":"admin3"
+    },
+    {
+        "name":"Admin4",
+        "email":"admin4@email.com",
+        "username":"admin4",
+        "password":"admin4"
+    }
+]

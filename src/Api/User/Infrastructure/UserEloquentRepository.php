@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Support\Str;
 use App\Models\PasswordReset;
+use Spatie\Permission\Models\Role;
 use Src\Api\User\Domain\UserEntity;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -146,6 +147,11 @@ final class UserEloquentRepository implements UserRepository
             )
             ->where('reports.report_element_type', 'USER')
             ->get();
+    }
+
+    public function assignRoles(UserId $userId)
+    {
+        $this->findById($userId)->assignRole(Role::findByName('regular_user'));
     }
 
     public function findByEmail(Email $email)
