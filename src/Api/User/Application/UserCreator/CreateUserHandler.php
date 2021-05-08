@@ -7,6 +7,8 @@ namespace Src\Api\User\Application\UserCreator;
 use Src\Api\User\Domain\ValueObjects\Name;
 use Src\Api\User\Domain\ValueObjects\Email;
 use Src\Api\User\Domain\ValueObjects\Photo;
+use Src\Api\User\Domain\ValueObjects\UserId;
+use Src\Api\User\Application\UserRoleAssigner;
 use Src\Api\User\Domain\ValueObjects\Password;
 use Src\Api\User\Domain\ValueObjects\Username;
 use Src\Api\Shared\Domain\ValueObjects\OtpCode;
@@ -22,19 +24,22 @@ final class CreateUserHandler implements CommandHandler
     private EmailVerificationSend $emailVerificationSend;
     private SharedRepository $sharedRepository;
     private UserValidation $userValidation;
+    private UserRoleAssigner $userRoleAssigner;
 
     public function __construct(
         UserCreator $userCreator,
         ImageCreator $imageCreator,
         SharedRepository $sharedRepository,
         EmailVerificationSend $emailVerificationSend,
-        UserValidation $userValidation
+        UserValidation $userValidation,
+        UserRoleAssigner $userRoleAssigner
     ) {
         $this->userCreator = $userCreator;
         $this->imageCreator = $imageCreator;
         $this->emailVerificationSend = $emailVerificationSend;
         $this->sharedRepository = $sharedRepository;
         $this->userValidation = $userValidation;
+        $this->userRoleAssigner = $userRoleAssigner;
     }
 
     public function execute($command)
@@ -69,6 +74,9 @@ final class CreateUserHandler implements CommandHandler
         )->token);
 
         $this->emailVerificationSend->__invoke($name, $email, $otpCode, $expireTime);
+
+        $userId = new UserId(intval($user->id));
+        $this->userRoleAssigner->__invoke($userId);
 
         return $user;
     }

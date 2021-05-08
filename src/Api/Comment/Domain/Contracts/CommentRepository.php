@@ -9,4 +9,5 @@ interface CommentRepository
 {
     public function saveComment(CommentEntity $commentEntity);
     public function getPostComments(PostId $postId);
+    public function getReportedComments();
 }

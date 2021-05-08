@@ -1,0 +1,14 @@
+[
+    {
+        "name":"query_reports"
+    },
+    {
+        "name":"punish_reports"
+    },
+    {
+        "name":"create_post"
+    },
+    {
+        "name":"comment_post"
+    }
+]

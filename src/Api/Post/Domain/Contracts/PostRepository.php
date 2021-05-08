@@ -9,4 +9,5 @@ interface PostRepository
 {
     public function savePost(PostEntity $postEntity);
     public function getPosts(UserId $userId);
+    public function getReportedPost();
 }

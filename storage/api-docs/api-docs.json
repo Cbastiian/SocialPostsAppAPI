@@ -1,0 +1,51 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Socialpost",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://socialpostsappapi.test/"
+        }
+    ],
+    "paths": {
+        "/api/auth/logout": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Cerrar sesión de usuario",
+                "operationId": "App\\Http\\Controllers\\Api\\AuthController::logout",
+                "responses": {
+                    "200": {
+                        "description": "Cerrar sesión de usuario."
+                    },
+                    "default": {
+                        "description": "Ha ocurrido un error."
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth ": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "apiAuth": {
+                "type": "http",
+                "description": "Login with email and password to get the authentication token",
+                "name": "Token based Based",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}

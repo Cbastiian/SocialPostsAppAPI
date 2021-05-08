@@ -20,4 +20,21 @@ final class CommentEloquentRepository implements CommentRepository
     {
         return Comment::where('post_id', $postId->value())->get();
     }
+
+    public function getReportedComments()
+    {
+        return Comment::join('reports', 'reports.report_element_id', 'comments.id')
+            ->join('report_reasons', 'report_reasons.id', '=', 'reports.reason_id')
+            ->join('users as report_user', 'report_user.id', '=', 'reports.report_user_id')
+            ->join('users as comentator_user', 'comentator_user.id', '=', 'comentator_user_id')
+            ->select(
+                'comments.content',
+                'reports.created_at as report_date',
+                'report_reasons.name as reason_name',
+                'report_user.name as reporting_user',
+                'comentator_user.name as comentator_user_name'
+            )
+            ->where('reports.report_element_type', 'COMMENT')
+            ->get();
+    }
 }

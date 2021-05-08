@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Support\Str;
 use App\Models\PasswordReset;
+use Spatie\Permission\Models\Role;
 use Src\Api\User\Domain\UserEntity;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -130,6 +131,27 @@ final class UserEloquentRepository implements UserRepository
             'email' => $email->value(),
             'token' => $token->value()
         ]);
+    }
+
+    public function getReportedUsers()
+    {
+        return User::join('reports', 'reports.report_element_id', 'users.id')
+            ->join('report_reasons', 'report_reasons.id', '=', 'reports.reason_id')
+            ->join('users as report_user', 'report_user.id', '=', 'reports.report_user_id')
+            ->select(
+                'users.name as reported_user_name',
+                'users.email',
+                'reports.created_at as report_date',
+                'report_reasons.name as reason_name',
+                'report_user.name as reporting_user'
+            )
+            ->where('reports.report_element_type', 'USER')
+            ->get();
+    }
+
+    public function assignRoles(UserId $userId)
+    {
+        $this->findById($userId)->assignRole(Role::findByName('regular_user'));
     }
 
     public function findByEmail(Email $email)

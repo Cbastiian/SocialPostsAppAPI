@@ -46,8 +46,12 @@ Route::namespace('Api')->group(function () {
 
             Route::post('save', 'CommentController@saveComment');
         });
+
+        Route::prefix('report')->group(function () {
+
+            Route::post('save', 'ReportController@saveReport');
+            Route::get('get/{reportElementType}', 'ReportController@getReports');
+        });
     });
 });
-
-//TODO: implementcion par obtener posts segun usuarios seguidos
 //TODO: implmentction de reporte de comentrios

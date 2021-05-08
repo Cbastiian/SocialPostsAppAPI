@@ -1,0 +1,52 @@
+[
+    {
+        "name": "Es spam",
+        "description": "El registro puede contener spam",
+        "code": "SPAM"
+    },
+    {
+        "name": "Desnudos o actividad sexual",
+        "description": "El registro puede contener contenido sexual no apto para menores",
+        "code": "NUDITY"
+    },
+    {
+        "name": "Lenguage o simbolos que incitan al odio",
+        "description": "El registro puede contener incitacion al odio",
+        "code": "HATE"
+    },
+    {
+        "name": "Violencia u orgnizaciones peligrosas",
+        "description": "El registro puede contener violencia",
+        "code": "VIOLENCE"
+    },
+    {
+        "name": "Venta de articulos ilegles o regulados",
+        "description": "El registro puede contener venta de articulos ilegales",
+        "code": "ILLEGAL_SELL"
+    },
+    {
+        "name": "Bullying o acoso",
+        "description": "El registro puede contener bullying",
+        "code": "BULLYING"
+    },
+    {
+        "name": "Infracción de la propiedad intelectual",
+        "description": "El registro puede contener contenido propio de terceros",
+        "code": "COPYRIGTH"
+    },
+    {
+        "name": "Fraude",
+        "description": "El registro puede contener fraude",
+        "code": "FRAUD"
+    },
+    {
+        "name": "Información falsa",
+        "description": "El registro puede contener información falsa",
+        "code": "FAKES"
+    },
+    {
+        "name": "Simplemente no me gusta",
+        "description": "El registro no gusta al usuario",
+        "code": "DISLIKE"
+    }
+]
