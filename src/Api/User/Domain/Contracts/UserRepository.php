@@ -27,4 +27,5 @@ interface UserRepository
     public function getReportedUsers();
     public function assignRoles(UserId $userId);
     public function findByEmail(Email $email);
+    public function findById(UserId $userId);
 }

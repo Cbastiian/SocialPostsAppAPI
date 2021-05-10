@@ -4,6 +4,7 @@ namespace Src\Api\Post\Infrastructure;
 
 use App\Models\Post;
 use Src\Api\Post\Domain\PostEntity;
+use Src\Api\Post\Domain\ValueObjects\PostId;
 use Src\Api\User\Domain\ValueObjects\UserId;
 use Src\Api\Post\Domain\Contracts\PostRepository;
 
@@ -34,5 +35,11 @@ final class PostEloquentRepository implements PostRepository
             )
             ->where('reports.report_element_type', 'POST')
             ->get();
+    }
+
+    public function findById(PostId $postId)
+    {
+        return
+            Post::where('id', $postId)->first();
     }
 }
