@@ -47,6 +47,11 @@ Route::namespace('Api')->group(function () {
             Route::post('save', 'CommentController@saveComment');
         });
 
+        Route::prefix('like')->group(function () {
+
+            Route::post('toggle', 'LikeController@toggleLike');
+        });
+
         Route::prefix('report')->group(function () {
 
             Route::post('save', 'ReportController@saveReport');
@@ -54,4 +59,6 @@ Route::namespace('Api')->group(function () {
         });
     });
 });
-//TODO: implmentction de reporte de comentrios
+//TODO: Desctivar posts
+//TODO: Desctivar comentarios
+//TODO: CRUD Productos
