@@ -11,5 +11,5 @@ class Post extends Model
     use HasFactory, Likeable;
 
     protected $table = 'post';
-    protected $fillable = ['content', 'code', 'file', 'user_id'];
+    protected $fillable = ['content', 'code', 'file', 'user_id', 'active'];
 }
