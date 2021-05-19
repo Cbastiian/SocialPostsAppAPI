@@ -7,8 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Post\SavePostRequest;
 use Src\Api\Shared\Domain\Contracts\CommandBus;
 use Src\Api\Shared\Domain\Exceptions\DomainError;
+use App\Http\Requests\Api\Post\ChangePostStatusRequest;
 use Src\Api\Post\Application\PostGetter\GetPostsCommand;
 use Src\Api\Post\Application\PostCreator\CreatePostCommand;
+use Src\Api\Post\Application\PostStatusChanger\ChangePostStatusCommand;
 
 class PostController extends Controller
 {
@@ -60,7 +62,32 @@ class PostController extends Controller
                 "detail" => $error->errorMessage()
             ], 422);
         } catch (Exception $th) {
-            return  $th;
+            return response()->json([
+                'code' => $th->getCode(),
+                'detail' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    public function changePostStatus(ChangePostStatusRequest $changePostStatusRequest)
+    {
+        try {
+            $data = $changePostStatusRequest->data();
+
+            $command = new ChangePostStatusCommand(
+                $data->postId,
+                $data->status
+            );
+
+            $this->commandBus->execute($command);
+
+            return response([], 204);
+        } catch (DomainError $error) {
+            return response()->json([
+                "code" => $error->errorCode(),
+                "detail" => $error->errorMessage()
+            ], 422);
+        } catch (Exception $th) {
             return response()->json([
                 'code' => $th->getCode(),
                 'detail' => $th->getMessage()

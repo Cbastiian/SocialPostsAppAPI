@@ -7,6 +7,8 @@ namespace Src\Api\Comment\Infrastructure;
 use App\Models\Comment;
 use Src\Api\Comment\Domain\CommentEntity;
 use Src\Api\Post\Domain\ValueObjects\PostId;
+use Src\Api\Shared\Domain\ValueObjects\Status;
+use Src\Api\Comment\Domain\ValueObjects\CommentId;
 use Src\Api\Comment\Domain\Contracts\CommentRepository;
 
 final class CommentEloquentRepository implements CommentRepository
@@ -18,7 +20,10 @@ final class CommentEloquentRepository implements CommentRepository
 
     public function getPostComments(PostId $postId)
     {
-        return Comment::where('post_id', $postId->value())->get();
+        return Comment::where([
+            ['post_id', $postId->value()],
+            ['active', 1]
+        ])->get();
     }
 
     public function getReportedComments()
@@ -36,5 +41,14 @@ final class CommentEloquentRepository implements CommentRepository
             )
             ->where('reports.report_element_type', 'COMMENT')
             ->get();
+    }
+
+    public function changeCommentStatus(CommentId $commentId, Status $status)
+    {
+        Comment::where('id', $commentId->value())
+            ->first()
+            ->update([
+                'active' => intval($status->value())
+            ]);
     }
 }

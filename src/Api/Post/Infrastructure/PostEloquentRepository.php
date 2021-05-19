@@ -6,6 +6,7 @@ use App\Models\Post;
 use Src\Api\Post\Domain\PostEntity;
 use Src\Api\Post\Domain\ValueObjects\PostId;
 use Src\Api\User\Domain\ValueObjects\UserId;
+use Src\Api\Shared\Domain\ValueObjects\Status;
 use Src\Api\Post\Domain\Contracts\PostRepository;
 
 final class PostEloquentRepository implements PostRepository
@@ -17,7 +18,11 @@ final class PostEloquentRepository implements PostRepository
 
     public function getPosts(UserId $userId)
     {
-        return Post::where('user_id', $userId)->get();
+        return Post::where([
+            ['user_id', $userId],
+            ['active', 1]
+        ])
+            ->get();
     }
 
     public function getReportedPost()
@@ -37,9 +42,17 @@ final class PostEloquentRepository implements PostRepository
             ->get();
     }
 
+    public function changePostStatus(PostId $postId, Status $status)
+    {
+        Post::where('id', $postId->value())
+            ->first()
+            ->update([
+                'active' => intval($status->value())
+            ]);
+    }
+
     public function findById(PostId $postId)
     {
-        return
-            Post::where('id', $postId)->first();
+        return Post::where('id', $postId)->first();
     }
 }

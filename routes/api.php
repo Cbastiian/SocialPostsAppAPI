@@ -40,11 +40,13 @@ Route::namespace('Api')->group(function () {
 
             Route::post('save', 'PostController@savePost');
             Route::get('get', 'PostController@getPosts');
+            Route::put('change-status/{postId}', 'PostController@changePostStatus');
         });
 
         Route::prefix('comment')->group(function () {
 
             Route::post('save', 'CommentController@saveComment');
+            Route::put('change-status/{commentId}', 'CommentController@changeCommentStatus');
         });
 
         Route::prefix('like')->group(function () {
@@ -59,6 +61,4 @@ Route::namespace('Api')->group(function () {
         });
     });
 });
-//TODO: Desctivar posts
-//TODO: Desctivar comentarios
 //TODO: CRUD Productos
