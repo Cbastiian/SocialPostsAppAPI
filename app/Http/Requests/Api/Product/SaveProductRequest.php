@@ -3,11 +3,11 @@
 namespace App\Http\Requests\Api\Product;
 
 use App\Models\User;
+use App\Utils\BaseFormRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Dto\Products\SaveProductData;
-use Illuminate\Foundation\Http\FormRequest;
 
-class SaveProductRequest extends FormRequest
+class SaveProductRequest extends BaseFormRequest
 {
     public function authorize(): bool
     {
@@ -17,7 +17,7 @@ class SaveProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string'],
+            'title' => ['required', 'string'],
             'price' => ['required', 'numeric'],
             'image' => ['file']
         ];
@@ -26,7 +26,7 @@ class SaveProductRequest extends FormRequest
     public function data(): SaveProductData
     {
         return new SaveProductData([
-            'name' => $this->input('name'),
+            'title' => $this->input('title'),
             'description' => $this->input('description'),
             'userComment' => $this->input('userComment'),
             'price' => $this->input('price'),

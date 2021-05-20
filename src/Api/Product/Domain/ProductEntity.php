@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Src\Api\Product\Domain;
 
-use Src\Api\Shared\Domain\ValueObjects\Name;
 use Src\Api\User\Domain\ValueObjects\UserId;
 use Src\Api\Shared\Domain\ValueObjects\Image;
 use Src\Api\Product\Domain\ValueObjects\Price;
+use Src\Api\Product\Domain\ValueObjects\Title;
 use Src\Api\Shared\Domain\ValueObjects\Description;
 use Src\Api\Product\Domain\ValueObjects\ProductCode;
 use Src\Api\Product\Domain\ValueObjects\UserComment;
 
 final class ProductEntity
 {
-    private Name $name;
+    private Title $title;
     private Description $description;
     private Price $price;
     private UserComment $userComment;
@@ -23,7 +23,7 @@ final class ProductEntity
     private UserId $userId;
 
     public function __construct(
-        Name $name,
+        Title $title,
         Description $description,
         Price $price,
         UserComment $userComment,
@@ -31,7 +31,7 @@ final class ProductEntity
         Image $image,
         UserId $userId
     ) {
-        $this->name = $name;
+        $this->title = $title;
         $this->description = $description;
         $this->price = $price;
         $this->userComment = $userComment;
@@ -41,7 +41,7 @@ final class ProductEntity
     }
 
     public static function create(
-        Name $name,
+        Title $title,
         Description $description,
         Price $price,
         UserComment $userComment,
@@ -50,7 +50,7 @@ final class ProductEntity
         UserId $userId
     ) {
         return new self(
-            $name,
+            $title,
             $description,
             $price,
             $userComment,
@@ -61,11 +61,11 @@ final class ProductEntity
     }
 
     /***
-     * get the value of name
+     * get the value of title
      */
-    public function getName(): Name
+    public function getTitle(): Title
     {
-        return $this->name;
+        return $this->title;
     }
 
     /***
@@ -119,12 +119,12 @@ final class ProductEntity
     public function toArray(): array
     {
         return [
-            'name' => $this->getName()->value(),
+            'title' => $this->getTitle()->value(),
             'description' => $this->getDescription()->value(),
             'price' => $this->getPrice()->value(),
             'user_comment' => $this->getUserComment()->value(),
-            'imge' => $this->getImage()->value(),
-            'code' => $this->getProductCode()->value(),
+            'image' => $this->getImage()->value(),
+            'product_code' => $this->getProductCode()->value(),
             'user_id' => $this->getUserId()->value()
         ];
     }

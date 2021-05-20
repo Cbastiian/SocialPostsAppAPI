@@ -59,6 +59,11 @@ Route::namespace('Api')->group(function () {
             Route::post('save', 'ReportController@saveReport');
             Route::get('get/{reportElementType}', 'ReportController@getReports');
         });
+
+        Route::prefix('product')->group(function () {
+
+            Route::post('save', 'ProductController@saveProduct');
+        });
     });
 });
 //TODO: CRUD Productos
