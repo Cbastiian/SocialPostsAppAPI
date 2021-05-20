@@ -5,6 +5,7 @@ namespace Src\Api\Product\Domain\Contracts;
 use Src\Api\Product\Domain\ProductEntity;
 use Src\Api\Shared\Domain\ValueObjects\Image;
 use Src\Api\Shared\Domain\ValueObjects\Status;
+use Src\Api\User\Domain\ValueObjects\Username;
 use Src\Api\Product\Domain\ValueObjects\ProductId;
 
 interface ProductRepository
@@ -14,5 +15,6 @@ interface ProductRepository
     public function changeProductStatus(ProductId $productId, Status $status);
     public function changeProductImage(ProductId $productId, Image $image);
     public function getGeneralProducts();
+    public function getProductsByUser(Username $username);
     public function findProductById(ProductId $productId);
 }

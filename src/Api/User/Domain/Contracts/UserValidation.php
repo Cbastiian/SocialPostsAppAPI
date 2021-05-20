@@ -14,4 +14,5 @@ interface UserValidation
     public function throwIfEmailNotExistError(Email $email);
     public function throwIfUserNotExist(UserId $userId);
     public function thorwIfUserInactive(UserId $userId);
+    public function throwIfUsernameNotExist(Username $username);
 }

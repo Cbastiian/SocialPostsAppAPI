@@ -67,6 +67,7 @@ Route::namespace('Api')->group(function () {
             Route::put('change-status/{productId}', 'ProductController@changerProductStatus');
             Route::post('change-image/{productId}', 'ProductController@changeProductImage');
             Route::get('list-general', 'ProductController@getGeneralProducts');
+            Route::get('get-by-user/{username}', 'ProductController@getProductsByUser');
         });
     });
 });
