@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->unsignedDecimal('price', 12, 0);
             $table->string('user_comment')->nullable();
             $table->text('description')->nullable();
-            $table->string('image')->default('img/profile/default.png');
+            $table->string('image')->default('img/products/default_product.jpg');
             $table->string('product_code');
 
             $table->bigInteger('user_id')->unsigned();

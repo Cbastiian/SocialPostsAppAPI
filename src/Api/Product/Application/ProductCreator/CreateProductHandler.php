@@ -13,6 +13,7 @@ use Src\Api\Shared\Domain\Contracts\CommandHandler;
 use Src\Api\Shared\Domain\ValueObjects\Description;
 use Src\Api\Product\Domain\ValueObjects\ProductCode;
 use Src\Api\Product\Domain\ValueObjects\UserComment;
+use Src\Api\Product\Domain\Constants\ProductConstants;
 use Src\Api\Product\Domain\Contracts\ProductValidation;
 use Src\Api\Shared\Application\Codes\CodeResourceGenerator;
 
@@ -48,7 +49,7 @@ final class CreateProductHandler implements CommandHandler
 
         $productImage = $command->getImage() ?
             $this->imageCreator->__invoke($command->getImage(), 'img/products/') :
-            (object)['imageName' => ''];
+            (object)['imageName' => ProductConstants::PRODUCT_IMAGE_PATH];
 
         $image = new Image($productImage->imageName);
 

@@ -4,6 +4,7 @@ namespace Src\Api\Product\Infrastructure;
 
 use App\Models\Product;
 use Src\Api\Product\Domain\ProductEntity;
+use Src\Api\Shared\Domain\ValueObjects\Image;
 use Src\Api\Shared\Domain\ValueObjects\Status;
 use Src\Api\Product\Domain\ValueObjects\ProductId;
 use Src\Api\Product\Domain\Contracts\ProductRepository;
@@ -29,5 +30,19 @@ final class ProductEloquentRepository implements ProductRepository
             ->update(
                 ['active' => intval($status->value())]
             );
+    }
+
+    public function changeProductImage(ProductId $productId, Image $image)
+    {
+        Product::where('id', $productId->value())
+            ->first()
+            ->update(
+                ['image' => $image->value()]
+            );
+    }
+
+    public function findProductById(ProductId $productId)
+    {
+        return Product::where('id', $productId->value())->first();
     }
 }
