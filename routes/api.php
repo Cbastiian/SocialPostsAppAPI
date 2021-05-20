@@ -71,3 +71,10 @@ Route::namespace('Api')->group(function () {
         });
     });
 });
+//!Corregir sistema de login
+//!Validar cambio de estado de post y comentario(propiedad del registro)
+//TODO: incluir busqueda de productos 
+//TODO: incluir sistema de productos favoritos
+//TODO: incluir sistema de rating de productos
+//TODO: completar reporte de producto
+//TODO: conteo de productos

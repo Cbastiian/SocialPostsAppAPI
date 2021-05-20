@@ -8,6 +8,7 @@ use Src\Api\Shared\Domain\ValueObjects\Image;
 use Src\Api\Shared\Domain\ValueObjects\Status;
 use Src\Api\User\Domain\ValueObjects\Username;
 use Src\Api\Product\Domain\ValueObjects\ProductId;
+use Src\Api\Product\Domain\ValueObjects\ProductCode;
 use Src\Api\Product\Domain\Contracts\ProductRepository;
 
 final class ProductEloquentRepository implements ProductRepository
@@ -83,6 +84,11 @@ final class ProductEloquentRepository implements ProductRepository
                 ['users.active', intval(true)]
             ])
             ->get();
+    }
+
+    public function getProductByCode(ProductCode $productCode)
+    {
+        return Product::where('product_code', $productCode->value())->first();
     }
 
     public function findProductById(ProductId $productId)
