@@ -22,42 +22,27 @@ final class ProductEntity
     private Image $image;
     private UserId $userId;
 
-    public function __construct(
-        Title $title,
-        Description $description,
-        Price $price,
-        UserComment $userComment,
-        ProductCode $productCode,
-        Image $image,
-        UserId $userId
-    ) {
-        $this->title = $title;
-        $this->description = $description;
-        $this->price = $price;
-        $this->userComment = $userComment;
-        $this->productCode = $productCode;
-        $this->image = $image;
-        $this->userId = $userId;
+    public function toCreateArray(): array
+    {
+        return [
+            'title' => $this->getTitle()->value(),
+            'description' => $this->getDescription()->value(),
+            'price' => $this->getPrice()->value(),
+            'user_comment' => $this->getUserComment()->value(),
+            'image' => $this->getImage()->value(),
+            'product_code' => $this->getProductCode()->value(),
+            'user_id' => $this->getUserId()->value()
+        ];
     }
 
-    public static function create(
-        Title $title,
-        Description $description,
-        Price $price,
-        UserComment $userComment,
-        ProductCode $productCode,
-        Image $image,
-        UserId $userId
-    ) {
-        return new self(
-            $title,
-            $description,
-            $price,
-            $userComment,
-            $productCode,
-            $image,
-            $userId
-        );
+    public function toUpdateArray(): array
+    {
+        return [
+            'title' => $this->getTitle()->value(),
+            'description' => $this->getDescription()->value(),
+            'price' => $this->getPrice()->value(),
+            'user_comment' => $this->getUserComment()->value()
+        ];
     }
 
     /***
@@ -69,11 +54,27 @@ final class ProductEntity
     }
 
     /***
+     * set the value of title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    /***
      * get the value of description
      */
     public function getDescription(): Description
     {
         return $this->description;
+    }
+
+    /***
+     * set the value of description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
     }
 
     /***
@@ -85,11 +86,27 @@ final class ProductEntity
     }
 
     /***
+     * set the value of price
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+    }
+
+    /***
      * get the value of userComment
      */
     public function getUserComment(): UserComment
     {
         return $this->userComment;
+    }
+
+    /***
+     * set the value of userComment
+     */
+    public function setUserComment($userComment)
+    {
+        $this->userComment = $userComment;
     }
 
     /***
@@ -101,11 +118,27 @@ final class ProductEntity
     }
 
     /***
+     * set the value of productCode
+     */
+    public function setProductCode($productCode)
+    {
+        $this->productCode = $productCode;
+    }
+
+    /***
      * get the value of image
      */
     public function getImage(): Image
     {
         return $this->image;
+    }
+
+    /***
+     * set the value of image
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
     }
 
     /***
@@ -116,16 +149,11 @@ final class ProductEntity
         return $this->userId;
     }
 
-    public function toArray(): array
+    /***
+     * set the value of userId
+     */
+    public function setUserId($userId)
     {
-        return [
-            'title' => $this->getTitle()->value(),
-            'description' => $this->getDescription()->value(),
-            'price' => $this->getPrice()->value(),
-            'user_comment' => $this->getUserComment()->value(),
-            'image' => $this->getImage()->value(),
-            'product_code' => $this->getProductCode()->value(),
-            'user_id' => $this->getUserId()->value()
-        ];
+        $this->userId = $userId;
     }
 }

@@ -63,6 +63,8 @@ Route::namespace('Api')->group(function () {
         Route::prefix('product')->group(function () {
 
             Route::post('save', 'ProductController@saveProduct');
+            Route::put('update/{productId}', 'ProductController@updateProduct');
+            Route::put('change-status/{productId}', 'ProductController@changerProductStatus');
         });
     });
 });

@@ -2,20 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Src\Api\Product\Application\ProductCreator;
+namespace Src\Api\Product\Application\ProductUpdater;
 
-use Src\Api\Product\Domain\ProductEntity;
 use Src\Api\Product\Domain\ProductBuilder;
-use Src\Api\User\Domain\ValueObjects\UserId;
 use Src\Api\Shared\Domain\ValueObjects\Image;
 use Src\Api\Product\Domain\ValueObjects\Price;
 use Src\Api\Product\Domain\ValueObjects\Title;
+use Src\Api\Product\Domain\ValueObjects\ProductId;
 use Src\Api\Shared\Domain\ValueObjects\Description;
-use Src\Api\Product\Domain\ValueObjects\ProductCode;
 use Src\Api\Product\Domain\ValueObjects\UserComment;
 use Src\Api\Product\Domain\Contracts\ProductRepository;
 
-final class ProductCreator
+final class ProductUpdater
 {
     private ProductRepository $productRepository;
 
@@ -25,13 +23,11 @@ final class ProductCreator
     }
 
     public function __invoke(
+        ProductId $productId,
         Title $title,
         Description $description,
-        Price $price,
         UserComment $userComment,
-        ProductCode $productCode,
-        Image $image,
-        UserId $userId
+        Price $price
     ) {
         $productBuilder = new ProductBuilder();
 
@@ -40,12 +36,8 @@ final class ProductCreator
             ->withDescription($description)
             ->withPrice($price)
             ->withUserComment($userComment)
-            ->withProductCode($productCode)
-            ->withImage($image)
-            ->withUserId($userId)
-            ->buildCreateProduct();
+            ->buildBasicUpdateProduct();
 
-
-        return $this->productRepository->saveProduct($product);
+        $this->productRepository->updateProduct($productId, $product);
     }
 }
