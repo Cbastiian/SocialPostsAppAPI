@@ -13,5 +13,6 @@ interface ProductRepository
     public function updateProduct(ProductId $productId, ProductEntity $productEntity);
     public function changeProductStatus(ProductId $productId, Status $status);
     public function changeProductImage(ProductId $productId, Image $image);
+    public function getGeneralProducts();
     public function findProductById(ProductId $productId);
 }
