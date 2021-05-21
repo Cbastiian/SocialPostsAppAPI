@@ -6,10 +6,12 @@ use App\Models\Product;
 use Src\Api\User\Domain\ValueObjects\UserId;
 use Src\Api\Product\Domain\ValueObjects\Title;
 use Src\Api\Product\Domain\ValueObjects\ProductId;
+use Src\Api\Product\Domain\ValueObjects\ProductCode;
 use Src\Api\Product\Domain\Contracts\ProductValidation;
 use Src\Api\Product\Domain\Exceptions\NotProductOwnerError;
 use Src\Api\Product\Domain\Exceptions\ProductNotExistError;
 use Src\Api\Product\Domain\Exceptions\SameProductNameError;
+use Src\Api\Product\Domain\Exceptions\ProductCodeNotFoundError;
 
 final class ProductValidationRepository implements ProductValidation
 {
@@ -45,6 +47,13 @@ final class ProductValidationRepository implements ProductValidation
         if ($product->user_id != $userId->value()) throw new NotProductOwnerError($productId, $userId);
     }
 
+    public function throwIfProductCodeNotExist(ProductCode $productCode)
+    {
+        $product = $this->findProductByCode($productCode);
+
+        if ($product == null) throw new ProductCodeNotFoundError($productCode);
+    }
+
     private function findProductNameByUser(UserId $userId, Title $title)
     {
         return Product::where([
@@ -56,5 +65,10 @@ final class ProductValidationRepository implements ProductValidation
     private function findProductById(ProductId $productId)
     {
         return Product::where('id', $productId->value())->first();
+    }
+
+    public function findProductByCode(ProductCode $productCode)
+    {
+        return Product::where('product_code', $productCode->value())->first();
     }
 }

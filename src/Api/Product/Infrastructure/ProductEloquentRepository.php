@@ -88,7 +88,20 @@ final class ProductEloquentRepository implements ProductRepository
 
     public function getProductByCode(ProductCode $productCode)
     {
-        return Product::where('product_code', $productCode->value())->first();
+        return Product::join('users', 'users.id', '=', 'products.user_id')
+            ->select(
+                'products.title as product_title',
+                'products.description as product_description',
+                'products.user_comment as user_comment',
+                'products.product_code',
+                'products.image as product_image',
+                'products.price as product_price',
+                'users.name as user_fullname',
+                'users.username',
+                'users.photo as user_photo'
+            )
+            ->where('product_code', $productCode->value())
+            ->first();
     }
 
     public function findProductById(ProductId $productId)
