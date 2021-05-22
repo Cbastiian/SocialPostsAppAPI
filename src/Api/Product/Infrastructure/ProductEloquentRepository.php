@@ -3,8 +3,13 @@
 namespace Src\Api\Product\Infrastructure;
 
 use App\Models\Product;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Src\Api\Product\Domain\ProductEntity;
+use Src\Api\Shared\Domain\ValueObjects\Page;
 use Src\Api\Shared\Domain\ValueObjects\Image;
+use Src\Api\Shared\Domain\ValueObjects\Limit;
+use Src\Api\Product\Domain\ValueObjects\Title;
 use Src\Api\Shared\Domain\ValueObjects\Status;
 use Src\Api\User\Domain\ValueObjects\Username;
 use Src\Api\Product\Domain\ValueObjects\ProductId;
@@ -102,6 +107,34 @@ final class ProductEloquentRepository implements ProductRepository
             )
             ->where('product_code', $productCode->value())
             ->first();
+    }
+
+    public function findProductByCoincidence(Title $title, Limit $limit, Page $page)
+    {
+        $convertedTitle = Str::ascii($title->value());
+
+        return Product::join('users', 'users.id', '=', 'products.user_id')
+            ->select(
+                'products.title as product_title',
+                'products.description as product_description',
+                'products.user_comment as user_comment',
+                'products.product_code',
+                'products.image as product_image',
+                'products.price as product_price',
+                'users.name as user_fullname',
+                'users.username',
+                'users.photo as user_photo'
+            )
+            ->where([
+                ['products.title', 'LIKE', '%' . $convertedTitle . '%'],
+                ['products.active', intval(true)]
+            ])
+            ->paginate(
+                $limit->value(),
+                null,
+                null,
+                $page->value()
+            );
     }
 
     public function findProductById(ProductId $productId)

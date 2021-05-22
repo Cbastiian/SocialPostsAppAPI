@@ -60,13 +60,13 @@ Route::namespace('Api')->group(function () {
             Route::get('list-general', 'ProductController@getGeneralProducts');
             Route::get('get-by-user/{username}', 'ProductController@getProductsByUser');
             Route::get('get-by-code/{productCode}', 'ProductController@getProductByCode');
+            Route::get('get-by-coincidence', 'ProductController@findProductsByTitle');
         });
     });
 });
 //!Corregir sistema de login
 //!Validar cambio de estado de post y comentario(propiedad del registro)
-//TODO: incluir busqueda de productos 
+//TODO: conteo de productos
 //TODO: incluir sistema de productos favoritos
 //TODO: incluir sistema de rating de productos
 //TODO: completar reporte de producto
-//TODO: conteo de productos
