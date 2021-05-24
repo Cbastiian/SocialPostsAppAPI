@@ -61,6 +61,7 @@ Route::namespace('Api')->group(function () {
             Route::get('get-by-user/{username}', 'ProductController@getProductsByUser');
             Route::get('get-by-code/{productCode}', 'ProductController@getProductByCode');
             Route::get('get-by-coincidence', 'ProductController@findProductsByTitle');
+            Route::post('save-rating', 'ProductController@saveRating');
         });
     });
 });

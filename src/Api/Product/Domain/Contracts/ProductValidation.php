@@ -14,4 +14,5 @@ interface ProductValidation
     public function throwIfProductUpdateTitleAlreadyExist(Title $title, ProductId $productId);
     public function throwIfNotProductOwner(ProductId $productId, UserId $userId);
     public function throwIfProductCodeNotExist(ProductCode $productCode);
+    public function throwIfProductAlreadyRated(ProductId $productId, UserId $userId);
 }
