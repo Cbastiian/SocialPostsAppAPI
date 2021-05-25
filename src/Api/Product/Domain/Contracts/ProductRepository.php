@@ -4,6 +4,7 @@ namespace Src\Api\Product\Domain\Contracts;
 
 use Src\Api\Product\Domain\ProductEntity;
 use Src\Api\Shared\Domain\ValueObjects\Page;
+use Src\Api\User\Domain\ValueObjects\UserId;
 use Src\Api\Shared\Domain\ValueObjects\Image;
 use Src\Api\Shared\Domain\ValueObjects\Limit;
 use Src\Api\Product\Domain\ValueObjects\Title;
@@ -23,4 +24,5 @@ interface ProductRepository
     public function getProductByCode(ProductCode $productCode);
     public function findProductByCoincidence(Title $title, Limit $limit, Page $page);
     public function findProductById(ProductId $productId);
+    public function createFavorite(ProductId $productId, UserId $userId);
 }

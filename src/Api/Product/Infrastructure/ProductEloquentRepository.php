@@ -4,9 +4,11 @@ namespace Src\Api\Product\Infrastructure;
 
 use App\Models\Product;
 use Illuminate\Support\Str;
+use App\Models\FavoriteProducts;
 use Illuminate\Support\Facades\DB;
 use Src\Api\Product\Domain\ProductEntity;
 use Src\Api\Shared\Domain\ValueObjects\Page;
+use Src\Api\User\Domain\ValueObjects\UserId;
 use Src\Api\Shared\Domain\ValueObjects\Image;
 use Src\Api\Shared\Domain\ValueObjects\Limit;
 use Src\Api\Product\Domain\ValueObjects\Title;
@@ -140,5 +142,13 @@ final class ProductEloquentRepository implements ProductRepository
     public function findProductById(ProductId $productId)
     {
         return Product::where('id', $productId->value())->first();
+    }
+
+    public function createFavorite(ProductId $productId, UserId $userId)
+    {
+        FavoriteProducts::create([
+            'product_id' => $productId->value(),
+            'user_id' => $userId->value(),
+        ]);
     }
 }
