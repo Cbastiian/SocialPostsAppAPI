@@ -26,5 +26,6 @@ interface ProductRepository
     public function getProductByCode(ProductCode $productCode);
     public function findProductByCoincidence(Title $title, Limit $limit, Page $page);
     public function saveRating(ProductRatingEntity $productRatingEntity);
+    public function updateRating(ProductId $productId, UserId $userId, ProductRatingEntity $productRatingEntity);
     public function findProductById(ProductId $productId);
 }

@@ -11,6 +11,7 @@ use Src\Api\Product\Domain\ValueObjects\ProductCode;
 use Src\Api\Product\Domain\Contracts\ProductValidation;
 use Src\Api\Product\Domain\Exceptions\NotProductOwnerError;
 use Src\Api\Product\Domain\Exceptions\ProductNotExistError;
+use Src\Api\Product\Domain\Exceptions\ProductNotRatedError;
 use Src\Api\Product\Domain\Exceptions\SameProductNameError;
 use Src\Api\Product\Domain\Exceptions\ProductAlreadyRatedError;
 use Src\Api\Product\Domain\Exceptions\ProductCodeNotFoundError;
@@ -61,6 +62,13 @@ final class ProductValidationRepository implements ProductValidation
         $rating = $this->findProductRate($productId, $userId);
 
         if ($rating) throw new ProductAlreadyRatedError($productId, $userId);
+    }
+
+    public function throwIfProductNotRated(ProductId $productId, UserId $userId)
+    {
+        $rating = $this->findProductRate($productId, $userId);
+
+        if ($rating == null) throw new ProductNotRatedError($productId, $userId);
     }
 
     private function findProductNameByUser(UserId $userId, Title $title)

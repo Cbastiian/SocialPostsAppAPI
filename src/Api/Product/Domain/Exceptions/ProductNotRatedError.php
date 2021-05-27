@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Src\Api\Product\Domain\Exceptions;
 
 use Src\Api\User\Domain\ValueObjects\UserId;
 use Src\Api\Shared\Domain\Exceptions\DomainError;
 use Src\Api\Product\Domain\ValueObjects\ProductId;
 
-final class ProductAlreadyRatedError extends DomainError
+final class ProductNotRatedError extends DomainError
 {
     private ProductId $productId;
     private UserId $userId;
@@ -21,11 +23,11 @@ final class ProductAlreadyRatedError extends DomainError
 
     public function errorCode(): string
     {
-        return 'PRODUCT_ALREADY_RATED';
+        return 'PRODUCT_NOT_RATED';
     }
 
     public function errorMessage(): string
     {
-        return 'The product with id ' . $this->productId->value() . ' already rated by the user with id ' . $this->userId->value();
+        return 'The product with id ' . $this->productId->value() . ' is not rated by the user with id ' . $this->userId->value();
     }
 }

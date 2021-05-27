@@ -146,6 +146,16 @@ final class ProductEloquentRepository implements ProductRepository
         return ProductRatings::create($productRatingEntity->toCreateArray());
     }
 
+    public function updateRating(ProductId $productId, UserId $userId, ProductRatingEntity $productRatingEntity)
+    {
+        ProductRatings::where([
+            ['product_id', $productId->value()],
+            ['user_id', $userId->value()]
+        ])
+            ->first()
+            ->update($productRatingEntity->toUpdateArray());
+    }
+
     public function findProductById(ProductId $productId)
     {
         return Product::where('id', $productId->value())->first();
