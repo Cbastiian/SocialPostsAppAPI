@@ -4,6 +4,7 @@ namespace Src\Api\Product\Infrastructure;
 
 use App\Models\Product;
 use Illuminate\Support\Str;
+use App\Models\ProductRatings;
 use App\Models\FavoriteProducts;
 use Illuminate\Support\Facades\DB;
 use Src\Api\Product\Domain\ProductEntity;
@@ -12,8 +13,10 @@ use Src\Api\User\Domain\ValueObjects\UserId;
 use Src\Api\Shared\Domain\ValueObjects\Image;
 use Src\Api\Shared\Domain\ValueObjects\Limit;
 use Src\Api\Product\Domain\ValueObjects\Title;
+use Src\Api\Product\Domain\ValueObjects\Value;
 use Src\Api\Shared\Domain\ValueObjects\Status;
 use Src\Api\User\Domain\ValueObjects\Username;
+use Src\Api\Product\Domain\ProductRatingEntity;
 use Src\Api\Product\Domain\ValueObjects\ProductId;
 use Src\Api\Product\Domain\ValueObjects\ProductCode;
 use Src\Api\Product\Domain\Contracts\ProductRepository;
@@ -137,6 +140,21 @@ final class ProductEloquentRepository implements ProductRepository
                 null,
                 $page->value()
             );
+    }
+
+    public function saveRating(ProductRatingEntity $productRatingEntity)
+    {
+        return ProductRatings::create($productRatingEntity->toCreateArray());
+    }
+
+    public function updateRating(ProductId $productId, UserId $userId, ProductRatingEntity $productRatingEntity)
+    {
+        ProductRatings::where([
+            ['product_id', $productId->value()],
+            ['user_id', $userId->value()]
+        ])
+            ->first()
+            ->update($productRatingEntity->toUpdateArray());
     }
 
     public function findProductById(ProductId $productId)
