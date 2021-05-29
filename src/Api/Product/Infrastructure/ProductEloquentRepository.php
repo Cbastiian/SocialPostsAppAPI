@@ -157,16 +157,21 @@ final class ProductEloquentRepository implements ProductRepository
             ->update($productRatingEntity->toUpdateArray());
     }
 
-    public function findProductById(ProductId $productId)
-    {
-        return Product::where('id', $productId->value())->first();
-    }
-
     public function createFavorite(ProductId $productId, UserId $userId)
     {
-        FavoriteProducts::create([
+        return FavoriteProducts::create([
             'product_id' => $productId->value(),
             'user_id' => $userId->value(),
         ]);
+    }
+
+    public function getCount(UserId $userId)
+    {
+        return Product::where('user_id', $userId->value())->count();
+    }
+
+    public function findProductById(ProductId $productId)
+    {
+        return Product::where('id', $productId->value())->first();
     }
 }

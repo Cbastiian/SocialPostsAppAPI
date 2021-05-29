@@ -63,6 +63,8 @@ Route::namespace('Api')->group(function () {
             Route::get('get-by-coincidence', 'ProductController@findProductsByTitle');
             Route::post('save-rating', 'ProductController@saveRating');
             Route::put('update-rating/{productId}', 'ProductController@updateRating');
+            Route::post('save-favorite/{productId}', 'ProductController@saveFavorite');
+            Route::get('get-count/{userId}', 'ProductController@getProductCount');
         });
     });
 });
@@ -70,5 +72,4 @@ Route::namespace('Api')->group(function () {
 //!Validar cambio de estado de post y comentario(propiedad del registro)
 //TODO: conteo de productos
 //TODO: incluir sistema de productos favoritos
-//TODO: incluir sistema de rating de productos
 //TODO: completar reporte de producto

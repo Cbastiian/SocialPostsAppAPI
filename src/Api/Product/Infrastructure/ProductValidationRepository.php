@@ -4,17 +4,20 @@ namespace Src\Api\Product\Infrastructure;
 
 use App\Models\Product;
 use App\Models\ProductRatings;
+use App\Models\FavoriteProducts;
 use Src\Api\User\Domain\ValueObjects\UserId;
 use Src\Api\Product\Domain\ValueObjects\Title;
 use Src\Api\Product\Domain\ValueObjects\ProductId;
 use Src\Api\Product\Domain\ValueObjects\ProductCode;
 use Src\Api\Product\Domain\Contracts\ProductValidation;
+use Src\Api\Product\Domain\Exceptions\ProductOwnerError;
 use Src\Api\Product\Domain\Exceptions\NotProductOwnerError;
 use Src\Api\Product\Domain\Exceptions\ProductNotExistError;
 use Src\Api\Product\Domain\Exceptions\ProductNotRatedError;
 use Src\Api\Product\Domain\Exceptions\SameProductNameError;
 use Src\Api\Product\Domain\Exceptions\ProductAlreadyRatedError;
 use Src\Api\Product\Domain\Exceptions\ProductCodeNotFoundError;
+use Src\Api\Product\Domain\Exceptions\ProductAlreadyInFavoritesError;
 
 final class ProductValidationRepository implements ProductValidation
 {
@@ -71,6 +74,20 @@ final class ProductValidationRepository implements ProductValidation
         if ($rating == null) throw new ProductNotRatedError($productId, $userId);
     }
 
+    public function throwIfProductAlreadyInFavorites(ProductId $productId, UserId $userId)
+    {
+        $favorite = $this->findFavorite($productId, $userId);
+
+        if ($favorite) throw new ProductAlreadyInFavoritesError($productId, $userId);
+    }
+
+    public function throwIfProductOwner(ProductId $productId, UserId $userId)
+    {
+        $product = $this->findProductById($productId);
+
+        if ($product->user_id == $userId->value()) throw new ProductOwnerError($productId, $userId);
+    }
+
     private function findProductNameByUser(UserId $userId, Title $title)
     {
         return Product::where([
@@ -92,6 +109,14 @@ final class ProductValidationRepository implements ProductValidation
     public function findProductRate(ProductId $productId, UserId $userId)
     {
         return ProductRatings::where([
+            ['product_id', $productId->value()],
+            ['user_id', $userId->value()]
+        ])->first();
+    }
+
+    public function findFavorite(ProductId $productId, UserId $userId)
+    {
+        return FavoriteProducts::where([
             ['product_id', $productId->value()],
             ['user_id', $userId->value()]
         ])->first();

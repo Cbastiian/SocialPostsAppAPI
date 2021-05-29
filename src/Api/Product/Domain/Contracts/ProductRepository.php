@@ -29,4 +29,5 @@ interface ProductRepository
     public function updateRating(ProductId $productId, UserId $userId, ProductRatingEntity $productRatingEntity);
     public function findProductById(ProductId $productId);
     public function createFavorite(ProductId $productId, UserId $userId);
+    public function getCount(UserId $userId);
 }

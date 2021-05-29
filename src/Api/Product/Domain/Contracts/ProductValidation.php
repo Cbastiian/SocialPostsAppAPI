@@ -16,4 +16,6 @@ interface ProductValidation
     public function throwIfProductCodeNotExist(ProductCode $productCode);
     public function throwIfProductAlreadyRated(ProductId $productId, UserId $userId);
     public function throwIfProductNotRated(ProductId $productId, UserId $userId);
+    public function throwIfProductAlreadyInFavorites(ProductId $productId, UserId $userId);
+    public function throwIfProductOwner(ProductId $productId, UserId $userId);
 }

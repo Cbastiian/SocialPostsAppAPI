@@ -1,12 +1,13 @@
 <?php
 
-namespace Src\Api\Product\Application\FavoritesCreator;
+declare(strict_types=1);
+
+namespace Src\Api\Product\Application\ProductCountGetter;
 
 use Src\Api\User\Domain\ValueObjects\UserId;
-use Src\Api\Product\Domain\ValueObjects\ProductId;
 use Src\Api\Product\Domain\Contracts\ProductRepository;
 
-final class FavoritesCreator
+final class ProductCountGetter
 {
     private ProductRepository $productRepository;
 
@@ -15,10 +16,8 @@ final class FavoritesCreator
         $this->productRepository = $productRepository;
     }
 
-    public function __invoke(
-        ProductId $productId,
-        UserId $userId
-    ) {
-        return $this->productRepository->createFavorite($productId, $userId);
+    public function __invoke(UserId $userId)
+    {
+        return $this->productRepository->getCount($userId);
     }
 }

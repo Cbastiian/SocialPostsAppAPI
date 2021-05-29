@@ -38,6 +38,7 @@ final class CreateProductRatingHandler implements CommandHandler
         $this->productValidation->throwIfProductIdNotExist($productId);
         $this->userValidation->throwIfUserNotExist($userId);
         $this->productValidation->throwIfProductAlreadyRated($productId, $userId);
+        $this->productValidation->throwIfProductOwner($productId, $userId);
 
         return $this->productRatingCreator->__invoke(
             $value,

@@ -8,6 +8,8 @@ use Src\Api\Shared\Domain\Contracts\CommandBus;
 use Src\Api\Shared\Domain\Exceptions\DomainError;
 use App\Http\Requests\Api\Product\SaveProductRequest;
 use App\Http\Requests\Api\Product\UpdateProductRequest;
+use App\Http\Requests\Api\Product\CreateFavoriteRequest;
+use App\Http\Requests\Api\Product\GetProductCountRequest;
 use App\Http\Requests\Api\Product\GetProductByCodeRequest;
 use App\Http\Requests\Api\Product\GetProductsByUserRequest;
 use App\Http\Requests\Api\Product\ChangeProductImageRequest;
@@ -18,6 +20,8 @@ use App\Http\Requests\Api\Product\CreateProductRatingRequest;
 use App\Http\Requests\Api\Product\UpdateProductRatingRequest;
 use Src\Api\Product\Application\ProductCreator\CreateProductCommand;
 use Src\Api\Product\Application\ProductUpdater\UpdateProductCommand;
+use Src\Api\Product\Application\FavoritesCreator\CreateFavoriteCommand;
+use Src\Api\Product\Application\ProductCountGetter\GetProductCountCommand;
 use Src\Api\Product\Application\ProductByCodeGetter\GetProductByCodeCommand;
 use Src\Api\Product\Application\ProductImageUpdater\ChangeProductImageCommand;
 use Src\Api\Product\Application\ProductsByUserGetter\GetProductsByUserCommand;
@@ -287,6 +291,55 @@ class ProductController extends Controller
             $this->commandBus->execute($command);
 
             return response()->json([], 204);
+        } catch (DomainError $error) {
+            return response()->json([
+                "code" => $error->errorCode(),
+                "detail" => $error->errorMessage()
+            ], 422);
+        } catch (Exception $th) {
+            return response()->json([
+                'code' => $th->getCode(),
+                'detail' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    public function saveFavorite(CreateFavoriteRequest $createFavoriteRequest)
+    {
+        try {
+            $data = $createFavoriteRequest->data();
+
+            $command = new CreateFavoriteCommand(
+                $data->productId,
+                $data->userId
+            );
+
+            $favorite = $this->commandBus->execute($command);
+
+            return response()->json($favorite, 201);
+        } catch (DomainError $error) {
+            return response()->json([
+                "code" => $error->errorCode(),
+                "detail" => $error->errorMessage()
+            ], 422);
+        } catch (Exception $th) {
+            return response()->json([
+                'code' => $th->getCode(),
+                'detail' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getProductCount(GetProductCountRequest $getProductCountRequest)
+    {
+        try {
+            $data = $getProductCountRequest->data();
+
+            $command = new GetProductCountCommand($data->userId);
+
+            $productCount = $this->commandBus->execute($command);
+
+            return response()->json($productCount);
         } catch (DomainError $error) {
             return response()->json([
                 "code" => $error->errorCode(),
