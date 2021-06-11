@@ -17,6 +17,7 @@ use Src\Api\Product\Domain\Exceptions\ProductNotRatedError;
 use Src\Api\Product\Domain\Exceptions\SameProductNameError;
 use Src\Api\Product\Domain\Exceptions\ProductAlreadyRatedError;
 use Src\Api\Product\Domain\Exceptions\ProductCodeNotFoundError;
+use Src\Api\Product\Domain\Exceptions\ProductNotInfavoritesError;
 use Src\Api\Product\Domain\Exceptions\ProductAlreadyInFavoritesError;
 
 final class ProductValidationRepository implements ProductValidation
@@ -86,6 +87,13 @@ final class ProductValidationRepository implements ProductValidation
         $product = $this->findProductById($productId);
 
         if ($product->user_id == $userId->value()) throw new ProductOwnerError($productId, $userId);
+    }
+
+    public function throwIfProductNotInFavorites(ProductId $productId, UserId $userId)
+    {
+        $favorite = $this->findFavorite($productId, $userId);
+
+        if ($favorite == null) throw new ProductNotInfavoritesError($productId, $userId);
     }
 
     private function findProductNameByUser(UserId $userId, Title $title)

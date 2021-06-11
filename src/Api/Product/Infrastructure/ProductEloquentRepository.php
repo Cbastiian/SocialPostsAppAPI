@@ -165,9 +165,44 @@ final class ProductEloquentRepository implements ProductRepository
         ]);
     }
 
+    public function removeFavorite(ProductId $productId, UserId $userId)
+    {
+        FavoriteProducts::where([
+            ['product_id', $productId->value()],
+            ['user_id', $userId->value()],
+        ])->delete();
+    }
+
     public function getCount(UserId $userId)
     {
         return Product::where('user_id', $userId->value())->count();
+    }
+    public function getFavoriteProducts(UserId $userId, Limit $limit, Page $page)
+    {
+        //!Correccion de consulta
+        return FavoriteProducts::join('products', 'products.id', '=', 'favorite_products.product_id')
+            ->join('users', 'users.id', '=', 'favorite_products.user_id')
+            ->select(
+                'products.title as product_title',
+                'products.description as product_description',
+                'products.user_comment as user_comment',
+                'products.product_code',
+                'products.image as product_image',
+                'products.price as product_price',
+                'users.name as user_fullname',
+                'users.username',
+                'users.photo as user_photo'
+            )
+            ->where([
+                ['favorite_products.id', $userId->value()],
+                ['products.active', intval(true)]
+            ])
+            ->paginate(
+                $limit->value(),
+                null,
+                null,
+                $page->value()
+            );
     }
 
     public function findProductById(ProductId $productId)

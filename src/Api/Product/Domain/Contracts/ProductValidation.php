@@ -18,4 +18,5 @@ interface ProductValidation
     public function throwIfProductNotRated(ProductId $productId, UserId $userId);
     public function throwIfProductAlreadyInFavorites(ProductId $productId, UserId $userId);
     public function throwIfProductOwner(ProductId $productId, UserId $userId);
+    public function throwIfProductNotInFavorites(ProductId $productId, UserId $userId);
 }

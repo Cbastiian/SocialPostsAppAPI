@@ -9,6 +9,7 @@ use Src\Api\Shared\Domain\Exceptions\DomainError;
 use App\Http\Requests\Api\Product\SaveProductRequest;
 use App\Http\Requests\Api\Product\UpdateProductRequest;
 use App\Http\Requests\Api\Product\CreateFavoriteRequest;
+use App\Http\Requests\Api\Product\RemoveFavoriteRequest;
 use App\Http\Requests\Api\Product\GetProductCountRequest;
 use App\Http\Requests\Api\Product\GetProductByCodeRequest;
 use App\Http\Requests\Api\Product\GetProductsByUserRequest;
@@ -17,9 +18,11 @@ use App\Http\Requests\Api\Product\FindProductByTitleRequest;
 use App\Http\Requests\Api\Product\GetGeneralProductsRequest;
 use App\Http\Requests\Api\Product\ChangeProductStatusRequest;
 use App\Http\Requests\Api\Product\CreateProductRatingRequest;
+use App\Http\Requests\Api\Product\GetFavoriteProductsRequest;
 use App\Http\Requests\Api\Product\UpdateProductRatingRequest;
 use Src\Api\Product\Application\ProductCreator\CreateProductCommand;
 use Src\Api\Product\Application\ProductUpdater\UpdateProductCommand;
+use Src\Api\Product\Application\FavoriteRemover\RemoveFavoriteCommand;
 use Src\Api\Product\Application\FavoritesCreator\CreateFavoriteCommand;
 use Src\Api\Product\Application\ProductCountGetter\GetProductCountCommand;
 use Src\Api\Product\Application\ProductByCodeGetter\GetProductByCodeCommand;
@@ -30,6 +33,7 @@ use Src\Api\Product\Application\GeneralProductsGetter\GetGeneralProductsCommand;
 use Src\Api\Product\Application\ProductRatingCreator\CreateProductRatingCommand;
 use Src\Api\Product\Application\ProductRatingUpdater\UpdateProductRatingCommand;
 use Src\Api\Product\Application\ProductStatusChanger\ChangeProductStatusCommand;
+use Src\Api\Product\Application\FavoriteProductsGetter\GetFavoriteProductsCommand;
 
 class ProductController extends Controller
 {
@@ -330,6 +334,32 @@ class ProductController extends Controller
         }
     }
 
+    public function removeFavorite(RemoveFavoriteRequest $removeFavoriteRequest)
+    {
+        try {
+            $data = $removeFavoriteRequest->data();
+
+            $command = new RemoveFavoriteCommand(
+                $data->productId,
+                $data->userId
+            );
+
+            $this->commandBus->execute($command);
+
+            return response()->json([], 204);
+        } catch (DomainError $error) {
+            return response()->json([
+                "code" => $error->errorCode(),
+                "detail" => $error->errorMessage()
+            ], 422);
+        } catch (Exception $th) {
+            return response()->json([
+                'code' => $th->getCode(),
+                'detail' => $th->getMessage()
+            ], 500);
+        }
+    }
+
     public function getProductCount(GetProductCountRequest $getProductCountRequest)
     {
         try {
@@ -340,6 +370,33 @@ class ProductController extends Controller
             $productCount = $this->commandBus->execute($command);
 
             return response()->json($productCount);
+        } catch (DomainError $error) {
+            return response()->json([
+                "code" => $error->errorCode(),
+                "detail" => $error->errorMessage()
+            ], 422);
+        } catch (Exception $th) {
+            return response()->json([
+                'code' => $th->getCode(),
+                'detail' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getFavoriteProducts(GetFavoriteProductsRequest $getFavoriteProductsRequest)
+    {
+        try {
+            $data = $getFavoriteProductsRequest->data();
+
+            $command = new GetFavoriteProductsCommand(
+                $data->userId,
+                $data->limit,
+                $data->page
+            );
+
+            $favoriteProducts = $this->commandBus->execute($command);
+
+            return response()->json($favoriteProducts, 200);
         } catch (DomainError $error) {
             return response()->json([
                 "code" => $error->errorCode(),

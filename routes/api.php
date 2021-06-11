@@ -64,7 +64,9 @@ Route::namespace('Api')->group(function () {
             Route::post('save-rating', 'ProductController@saveRating');
             Route::put('update-rating/{productId}', 'ProductController@updateRating');
             Route::post('save-favorite/{productId}', 'ProductController@saveFavorite');
+            Route::delete('remove-favorite/{productId}', 'ProductController@removeFavorite');
             Route::get('get-count/{userId}', 'ProductController@getProductCount');
+            Route::get('get-favorite', 'ProductController@getFavoriteProducts');
         });
     });
 });
