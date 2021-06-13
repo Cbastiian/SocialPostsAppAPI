@@ -55,6 +55,7 @@ class CommentController extends Controller
 
             $command = new ChangeCommentStatusCommand(
                 $data->commentId,
+                $data->userId,
                 $data->status
             );
 

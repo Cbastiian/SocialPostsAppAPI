@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Src\Api\Comment\Application\CommentStatusChanger;
 
+use Src\Api\User\Domain\ValueObjects\UserId;
 use Src\Api\Shared\Domain\ValueObjects\Status;
 use Src\Api\Comment\Domain\ValueObjects\CommentId;
 use Src\Api\Shared\Domain\Contracts\CommandHandler;
@@ -25,9 +26,11 @@ final class ChangeCommentStatusHandler implements CommandHandler
     public function execute($command)
     {
         $commentId = new CommentId($command->getCommentId());
+        $userId = new UserId($command->getUserId());
         $status = new Status($command->getStatus());
 
         $this->commentValidation->throwIfCommentNotExist($commentId);
+        $this->commentValidation->throwIfNotCommentOwner($commentId, $userId);
 
         $this->commentStatusChanger->__invoke($commentId, $status);
     }

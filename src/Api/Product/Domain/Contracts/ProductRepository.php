@@ -32,4 +32,5 @@ interface ProductRepository
     public function removeFavorite(ProductId $productId, UserId $userId);
     public function getCount(UserId $userId);
     public function getFavoriteProducts(UserId $userId, Limit $limit, Page $page);
+    public function getReportedProducts();
 }

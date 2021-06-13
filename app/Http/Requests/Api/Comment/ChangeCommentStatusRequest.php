@@ -24,6 +24,7 @@ class ChangeCommentStatusRequest extends BaseFormRequest
     {
         return new ChangeCommentStatusData([
             'commentId' => intval(request()->commentId),
+            'userId' => intval(auth()->user()->id),
             'status' => $this->input('status')
         ]);
     }

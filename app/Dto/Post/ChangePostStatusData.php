@@ -9,5 +9,6 @@ use Spatie\DataTransferObject\DataTransferObject;
 final class ChangePostStatusData extends DataTransferObject
 {
     public int $postId;
+    public int $userId;
     public bool $status;
 }

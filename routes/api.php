@@ -70,6 +70,3 @@ Route::namespace('Api')->group(function () {
         });
     });
 });
-//!Corregir sistema de login
-//!Validar cambio de estado de post y comentario(propiedad del registro)
-//TODO: completar reporte de producto

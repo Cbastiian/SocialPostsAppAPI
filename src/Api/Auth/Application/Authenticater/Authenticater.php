@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Src\Api\Auth\Application\Authenticater;
 
-use Src\Api\Auth\Domain\Contracts\AuthRepository;
-use Src\Api\Auth\Domain\ValueObjects\Credentials;
 use Src\Api\User\Domain\ValueObjects\Password;
 use Src\Api\User\Domain\ValueObjects\Username;
+use Src\Api\Auth\Domain\Contracts\AuthRepository;
+use Src\Api\Auth\Domain\ValueObjects\Credentials;
 
 final class Authenticater
 {
@@ -24,7 +24,8 @@ final class Authenticater
     ) {
         $credentials = new Credentials([
             'username' => $username->value(),
-            'password' => $password->value()
+            'password' => $password->value(),
+            'active' => intval(true)
         ]);
 
         return $this->authRepository->login($credentials);

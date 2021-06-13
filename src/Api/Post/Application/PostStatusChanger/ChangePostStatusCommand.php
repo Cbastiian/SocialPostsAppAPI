@@ -9,13 +9,16 @@ use Src\Api\Shared\Domain\Contracts\Command;
 final class ChangePostStatusCommand implements Command
 {
     private int $postId;
+    private int $userId;
     private bool $status;
 
     public function __construct(
         int $postId,
+        int $userId,
         bool $status
     ) {
         $this->postId = $postId;
+        $this->userId = $userId;
         $this->status = $status;
     }
 
@@ -25,6 +28,14 @@ final class ChangePostStatusCommand implements Command
     public function getPostId()
     {
         return $this->postId;
+    }
+
+    /***
+     * get the value of userId
+     */
+    public function getUserId()
+    {
+        return $this->userId;
     }
 
     /***

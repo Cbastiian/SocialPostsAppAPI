@@ -2,6 +2,34 @@
 
 namespace Src\Api\Reports\Application;
 
-final class ProductReportStrategy
+use Src\Api\Product\Domain\ValueObjects\ProductId;
+use Src\Api\Product\Application\ListReportedProducts;
+use Src\Api\Product\Domain\Contracts\ProductValidation;
+use Src\Api\Reports\Domain\ValueObjects\ReportElementId;
+use Src\Api\Reports\Domain\Contracts\ReportElementStrategy;
+
+final class ProductReportStrategy implements ReportElementStrategy
 {
+    private ProductValidation $productValidation;
+    private ListReportedProducts $listReportedProducts;
+
+    public function __construct(
+        ProductValidation $productValidation,
+        ListReportedProducts $listReportedProducts
+    ) {
+        $this->productValidation = $productValidation;
+        $this->listReportedProducts = $listReportedProducts;
+    }
+
+    public function executeElementValidtion(ReportElementId $reportElementId)
+    {
+        $productId = new ProductId($reportElementId->value());
+
+        $this->productValidation->throwIfProductIdNotExist($productId);
+    }
+
+    public function executeElementGetter()
+    {
+        return $this->listReportedProducts->__invoke();
+    }
 }

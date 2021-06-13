@@ -9,5 +9,6 @@ use Spatie\DataTransferObject\DataTransferObject;
 final class ChangeCommentStatusData extends DataTransferObject
 {
     public int $commentId;
+    public int $userId;
     public bool $status;
 }
