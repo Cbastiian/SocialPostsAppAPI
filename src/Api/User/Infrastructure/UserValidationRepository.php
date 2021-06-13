@@ -15,6 +15,7 @@ use Src\Api\User\Domain\Exceptions\UserInactiveError;
 use Src\Api\User\Domain\Exceptions\UserNotExistError;
 use Src\Api\User\Domain\Exceptions\EmailNotExistError;
 use Src\Api\User\Domain\Exceptions\UsernameAlreadyExists;
+use Src\Api\User\Domain\Exceptions\UsernameNotExistError;
 
 final class UserValidationRepository implements UserValidation
 {
@@ -55,6 +56,13 @@ final class UserValidationRepository implements UserValidation
         $user = $this->findUser($userId);
 
         if (!boolval($user->active)) throw new UserInactiveError($userId);
+    }
+
+    public function throwIfUsernameNotExist(Username $username)
+    {
+        $user = $this->findUsername($username);
+
+        if ($user == null) throw new UsernameNotExistError($username);
     }
 
     public function findUser(UserId $userId)

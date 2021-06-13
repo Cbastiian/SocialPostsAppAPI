@@ -188,7 +188,8 @@ return [
         App\Providers\Api\PostProvider::class,
         App\Providers\Api\CommentProvider::class,
         App\Providers\Api\ReportProvider::class,
-        App\Providers\Api\LikeProvider::class
+        App\Providers\Api\LikeProvider::class,
+        App\Providers\Api\ProductProvider::class
 
     ],
 
