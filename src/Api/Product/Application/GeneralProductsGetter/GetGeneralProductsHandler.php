@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Src\Api\Product\Application\GeneralProductsGetter;
 
+use Src\Api\Shared\Domain\ValueObjects\Page;
+use Src\Api\Shared\Domain\ValueObjects\Limit;
 use Src\Api\Shared\Domain\Contracts\CommandHandler;
 
 final class GetGeneralProductsHandler implements CommandHandler
@@ -17,6 +19,12 @@ final class GetGeneralProductsHandler implements CommandHandler
 
     public function execute($command)
     {
-        return $this->generalProductsGetter->__invoke();
+        $limit = new Limit($command->getLimit());
+        $page = new Page($command->getPage());
+
+        return $this->generalProductsGetter->__invoke(
+            $limit,
+            $page
+        );
     }
 }

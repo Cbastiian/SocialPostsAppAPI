@@ -53,7 +53,7 @@ final class ProductEloquentRepository implements ProductRepository
             );
     }
 
-    public function getGeneralProducts()
+    public function getGeneralProducts(Limit $limit, Page $page)
     {
         return Product::join('users', 'users.id', '=', 'products.user_id')
             ->select(
@@ -71,7 +71,12 @@ final class ProductEloquentRepository implements ProductRepository
                 ['products.active', intval(true)],
                 ['users.active', intval(true)]
             ])
-            ->get();
+            ->paginate(
+                $limit->value(),
+                null,
+                null,
+                $page->value()
+            );
     }
 
     public function getProductsByUser(Username $username)
@@ -179,7 +184,6 @@ final class ProductEloquentRepository implements ProductRepository
     }
     public function getFavoriteProducts(UserId $userId, Limit $limit, Page $page)
     {
-        //!Correccion de consulta
         return FavoriteProducts::join('products', 'products.id', '=', 'favorite_products.product_id')
             ->join('users', 'users.id', '=', 'favorite_products.user_id')
             ->select(
@@ -194,7 +198,7 @@ final class ProductEloquentRepository implements ProductRepository
                 'users.photo as user_photo'
             )
             ->where([
-                ['favorite_products.id', $userId->value()],
+                ['favorite_products.user_id', $userId->value()],
                 ['products.active', intval(true)]
             ])
             ->paginate(

@@ -25,16 +25,16 @@ Route::namespace('Api')->group(function () {
         });
 
         Route::prefix('user')->group(function () {
+            Route::get('get-followings', 'UserController@getFollowers');
             Route::post('update-bio', 'UserController@updateBio');
             Route::post('update-profile-photo', 'UserController@updatProfilePhoto');
             Route::post('follow-user', 'UserController@followUser');
             Route::post('unfollow-user', 'UserController@unfollowUser');
-            Route::get('get-followings', 'UserController@getFollowers');
         });
 
         Route::prefix('post')->group(function () {
-            Route::post('save', 'PostController@savePost');
             Route::get('get', 'PostController@getPosts');
+            Route::post('save', 'PostController@savePost');
             Route::put('change-status/{postId}', 'PostController@changePostStatus');
         });
 
@@ -48,30 +48,28 @@ Route::namespace('Api')->group(function () {
         });
 
         Route::prefix('report')->group(function () {
-            Route::post('save', 'ReportController@saveReport');
             Route::get('get/{reportElementType}', 'ReportController@getReports');
+            Route::post('save', 'ReportController@saveReport');
         });
 
         Route::prefix('product')->group(function () {
-            Route::post('save', 'ProductController@saveProduct');
-            Route::put('update/{productId}', 'ProductController@updateProduct');
-            Route::put('change-status/{productId}', 'ProductController@changerProductStatus');
-            Route::post('change-image/{productId}', 'ProductController@changeProductImage');
             Route::get('list-general', 'ProductController@getGeneralProducts');
             Route::get('get-by-user/{username}', 'ProductController@getProductsByUser');
             Route::get('get-by-code/{productCode}', 'ProductController@getProductByCode');
             Route::get('get-by-coincidence', 'ProductController@findProductsByTitle');
-            Route::post('save-rating', 'ProductController@saveRating');
-            Route::put('update-rating/{productId}', 'ProductController@updateRating');
-            Route::post('save-favorite/{productId}', 'ProductController@saveFavorite');
-            Route::delete('remove-favorite/{productId}', 'ProductController@removeFavorite');
-            Route::get('get-count/{userId}', 'ProductController@getProductCount');
             Route::get('get-favorite', 'ProductController@getFavoriteProducts');
+            Route::get('get-count/{userId}', 'ProductController@getProductCount');
+            Route::post('save', 'ProductController@saveProduct');
+            Route::post('change-image/{productId}', 'ProductController@changeProductImage');
+            Route::post('save-rating', 'ProductController@saveRating');
+            Route::post('save-favorite/{productId}', 'ProductController@saveFavorite');
+            Route::put('update-rating/{productId}', 'ProductController@updateRating');
+            Route::put('update/{productId}', 'ProductController@updateProduct');
+            Route::put('change-status/{productId}', 'ProductController@changerProductStatus');
+            Route::delete('remove-favorite/{productId}', 'ProductController@removeFavorite');
         });
     });
 });
 //!Corregir sistema de login
 //!Validar cambio de estado de post y comentario(propiedad del registro)
-//TODO: conteo de productos
-//TODO: incluir sistema de productos favoritos
 //TODO: completar reporte de producto

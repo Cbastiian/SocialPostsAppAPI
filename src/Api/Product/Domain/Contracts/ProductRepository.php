@@ -21,7 +21,7 @@ interface ProductRepository
     public function updateProduct(ProductId $productId, ProductEntity $productEntity);
     public function changeProductStatus(ProductId $productId, Status $status);
     public function changeProductImage(ProductId $productId, Image $image);
-    public function getGeneralProducts();
+    public function getGeneralProducts(Limit $limit, Page $page);
     public function getProductsByUser(Username $username);
     public function getProductByCode(ProductCode $productCode);
     public function findProductByCoincidence(Title $title, Limit $limit, Page $page);

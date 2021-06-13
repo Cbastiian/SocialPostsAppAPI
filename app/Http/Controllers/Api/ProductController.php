@@ -161,7 +161,12 @@ class ProductController extends Controller
     public function getGeneralProducts(GetGeneralProductsRequest $getGeneralProductsRequest)
     {
         try {
-            $command = new GetGeneralProductsCommand();
+            $data = $getGeneralProductsRequest->data();
+
+            $command = new GetGeneralProductsCommand(
+                $data->limit,
+                $data->page
+            );
 
             $products = $this->commandBus->execute($command);
 

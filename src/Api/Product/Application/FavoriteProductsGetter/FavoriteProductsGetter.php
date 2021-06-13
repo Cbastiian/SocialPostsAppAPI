@@ -18,8 +18,11 @@ final class FavoriteProductsGetter
         $this->productRepository = $productRepository;
     }
 
-    public function __invoke(UserId $userId, Limit $limit, Page $page)
-    {
+    public function __invoke(
+        UserId $userId,
+        Limit $limit,
+        Page $page
+    ) {
         return $this->productRepository->getFavoriteProducts(
             $userId,
             $limit,
