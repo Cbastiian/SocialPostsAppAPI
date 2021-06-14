@@ -11,14 +11,7 @@ final class AuthEloquentRepository implements AuthRepository
     public function login(Credentials $credentials)
     {
         $token = Auth::attempt($credentials->value());
-
-        if (Auth::user() && boolval(Auth::user()->active)) {
-            return $this->respondWithToken($token);
-        } else {
-            return [
-                'access_token' => false,
-            ];
-        }
+        return $this->respondWithToken($token);
     }
 
     public function logout()

@@ -24,6 +24,7 @@ class ChangePostStatusRequest extends BaseFormRequest
     {
         return new ChangePostStatusData([
             'postId' => intval(request()->postId),
+            'userId' => intval(auth()->user()->id),
             'status' => $this->input('status')
         ]);
     }

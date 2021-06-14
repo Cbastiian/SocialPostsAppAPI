@@ -209,6 +209,23 @@ final class ProductEloquentRepository implements ProductRepository
             );
     }
 
+    public function getReportedProducts()
+    {
+        return Product::join('reports', 'reports.report_element_id', 'products.id')
+            ->join('report_reasons', 'report_reasons.id', '=', 'reports.reason_id')
+            ->join('users as report_user', 'report_user.id', '=', 'reports.report_user_id')
+            ->join('users as product_user', 'product_user.id', '=', 'user_id')
+            ->select(
+                'products.title',
+                'reports.created_at as report_date',
+                'report_reasons.name as reason_name',
+                'report_user.name as reporting_user',
+                'product_user.name as product_owner_name'
+            )
+            ->where('reports.report_element_type', 'PRODUCT')
+            ->get();
+    }
+
     public function findProductById(ProductId $productId)
     {
         return Product::where('id', $productId->value())->first();

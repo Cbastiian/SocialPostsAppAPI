@@ -76,6 +76,7 @@ class PostController extends Controller
 
             $command = new ChangePostStatusCommand(
                 $data->postId,
+                $data->userId,
                 $data->status
             );
 

@@ -149,6 +149,24 @@ final class UserEloquentRepository implements UserRepository
             ->get();
     }
 
+    public function getNoActiveUsers()
+    {
+        return User::where('active', intval(false))->get();
+    }
+
+    public function deleteUser(UserId $userId)
+    {
+        $user = $this->findById($userId);
+        $user->delete();
+    }
+
+    public function checkUserCreationTime(string $creationDate)
+    {
+        $currentDate  = Carbon::now();
+
+        return $currentDate->diffInMinutes($creationDate);
+    }
+
     public function assignRoles(UserId $userId)
     {
         $this->findById($userId)->assignRole(Role::findByName('regular_user'));

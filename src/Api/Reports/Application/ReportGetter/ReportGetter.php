@@ -12,9 +12,12 @@ use Src\Api\User\Domain\Contracts\UserValidation;
 use Src\Api\Reports\Application\PostReportStrategy;
 use Src\Api\Reports\Application\UserReportStrategy;
 use Src\Api\Comment\Application\ListReportedComments;
+use Src\Api\Product\Application\ListReportedProducts;
 use Src\Api\Reports\Application\CommentReportStrategy;
+use Src\Api\Reports\Application\ProductReportStrategy;
 use Src\Api\Reports\Domain\Contracts\ReportValidation;
 use Src\Api\Comment\Domain\Contracts\CommentValidation;
+use Src\Api\Product\Domain\Contracts\ProductValidation;
 use Src\Api\Reports\Domain\ValueObjects\ReportElementType;
 
 final class ReportGetter
@@ -23,26 +26,32 @@ final class ReportGetter
     private CommentValidation $commentValidation;
     private PostValidation $postValidation;
     private UserValidation $userValidation;
+    private ProductValidation $productValidation;
     private ListReportedComments $listReportedComments;
     private ListReportedPost $listReportedPost;
     private ListReportedUsers $listReportedUsers;
+    private ListReportedProducts $listReportedProducts;
 
     public function __construct(
         ReportValidation $reportValidation,
         CommentValidation $commentValidation,
         PostValidation $postValidation,
         UserValidation $userValidation,
+        ProductValidation $productValidation,
         ListReportedComments $listReportedComments,
         ListReportedPost $listReportedPost,
-        ListReportedUsers $listReportedUsers
+        ListReportedUsers $listReportedUsers,
+        ListReportedProducts $listReportedProducts
     ) {
         $this->reportValidation = $reportValidation;
         $this->commentValidation = $commentValidation;
         $this->postValidation = $postValidation;
         $this->userValidation = $userValidation;
+        $this->productValidation = $productValidation;
         $this->listReportedComments = $listReportedComments;
         $this->listReportedPost = $listReportedPost;
         $this->listReportedUsers = $listReportedUsers;
+        $this->listReportedProducts = $listReportedProducts;
     }
 
     public function __invoke(ReportElementType $reportElementType)
@@ -66,6 +75,11 @@ final class ReportGetter
             case 'USER':
                 $strategy = new UserReportStrategy($this->userValidation, $this->listReportedUsers);
                 break;
+            case 'PRODUCT':
+                $strategy = new ProductReportStrategy($this->productValidation, $this->listReportedProducts);
+                break;
+            default:
+                $this->reportValidation->throwIfReportEntityInvalid($reportElementType);
         }
 
         return $strategy;
