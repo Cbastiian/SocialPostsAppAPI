@@ -19,9 +19,9 @@ Route::namespace('Api')->group(function () {
     Route::group(['middleware' => 'jwt.verify'], function () {
 
         Route::prefix('auth')->group(function () {
+            Route::get('me', 'AuthController@me');
             Route::post('logout', 'AuthController@logout');
             Route::post('refresh', 'AuthController@refresh');
-            Route::post('me', 'AuthController@me');
         });
 
         Route::prefix('user')->group(function () {
