@@ -71,9 +71,9 @@ Route::namespace('Api')->group(function () {
 
         Route::prefix('history')->group(function () {
             Route::post('save', 'HistoryController@saveHistory');
+            Route::put('change-status/{historyId}', 'HistoryController@changeHistoryStatus');
         });
     });
 });
 //TODO: consulta de historias de usurio seguidos
-//TODO: cambio de estdo de historias
 //TODO: actualizacion de datos de usurio
