@@ -9,6 +9,7 @@ use Src\Api\Shared\Domain\Contracts\CommandBus;
 use Src\Api\Shared\Domain\Exceptions\DomainError;
 use App\Http\Requests\Api\History\SaveHistoryRequest;
 use App\Http\Requests\Api\History\ChangeHistoryStatusRequest;
+use Src\Api\History\Application\HistoryGetter\GetHistoriesCommand;
 use Src\Api\History\Application\HistoryCreator\CreateHistoryCommand;
 use Src\Api\History\Application\HistoryStatusChanger\ChangeHistoryStatusCommand;
 
@@ -35,6 +36,27 @@ class HistoryController extends Controller
             $history = $this->commandBus->execute($command);
 
             return response()->json($history, 201);
+        } catch (DomainError $error) {
+            return response()->json([
+                "code" => $error->errorCode(),
+                "detail" => $error->errorMessage()
+            ], 422);
+        } catch (Exception $th) {
+            return response()->json([
+                'code' => $th->getCode(),
+                'detail' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getHistories()
+    {
+        try {
+            $command = new GetHistoriesCommand();
+
+            $histories = $this->commandBus->execute($command);
+
+            return response()->json($histories);
         } catch (DomainError $error) {
             return response()->json([
                 "code" => $error->errorCode(),

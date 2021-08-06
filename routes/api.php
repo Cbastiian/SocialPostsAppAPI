@@ -70,6 +70,7 @@ Route::namespace('Api')->group(function () {
         });
 
         Route::prefix('history')->group(function () {
+            Route::get('get', 'HistoryController@getHistories');
             Route::post('save', 'HistoryController@saveHistory');
             Route::put('change-status/{historyId}', 'HistoryController@changeHistoryStatus');
         });
