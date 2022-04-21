@@ -166,19 +166,18 @@ return [
          * Package Service Providers...
          */
         Spatie\Permission\PermissionServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        Ichtrojan\Otp\OtpServiceProvider::class,
 
         /*
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
+
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
-        //Packages
-        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
-        Ichtrojan\Otp\OtpServiceProvider::class,
 
         //Api
         App\Providers\Api\SharedProvider::class,
@@ -189,7 +188,8 @@ return [
         App\Providers\Api\CommentProvider::class,
         App\Providers\Api\ReportProvider::class,
         App\Providers\Api\LikeProvider::class,
-        App\Providers\Api\ProductProvider::class
+        App\Providers\Api\ProductProvider::class,
+        App\Providers\Api\HistoryProvider::class
 
     ],
 

@@ -68,5 +68,14 @@ Route::namespace('Api')->group(function () {
             Route::put('change-status/{productId}', 'ProductController@changerProductStatus');
             Route::delete('remove-favorite/{productId}', 'ProductController@removeFavorite');
         });
+
+        Route::prefix('history')->group(function () {
+            Route::get('get', 'HistoryController@getHistories');
+            Route::get('get-by-user/{userId}', 'HistoryController@getHistoriesByUser');
+            Route::post('save', 'HistoryController@saveHistory');
+            Route::put('change-status/{historyId}', 'HistoryController@changeHistoryStatus');
+        });
     });
 });
+
+//TODO: actualizacion de datos de usurio
