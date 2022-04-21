@@ -41,6 +41,9 @@ final class ChangeProductImageHandler implements CommandHandler
         $productId = new ProductId($command->getProductId());
         $userId = new UserId($command->getUserId());
 
+        $this->productValidation->throwIfProductIdNotExist($productId);
+        $this->productValidation->throwIfNotProductOwner($productId, $userId);
+
         $productData = $this->productRepository->findProductById($productId);
 
         $productImage = $command->getImage() ?
@@ -50,9 +53,6 @@ final class ChangeProductImageHandler implements CommandHandler
         $image = new Image($productImage->imageName);
 
         if ($productData->image != ProductConstants::PRODUCT_IMAGE_PATH) $this->imageDestroyer->__invoke($productData->image);
-
-        $this->productValidation->throwIfProductIdNotExist($productId);
-        $this->productValidation->throwIfNotProductOwner($productId, $userId);
 
         $this->productImageUpdater->__invoke($productId, $image);
     }
