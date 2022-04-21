@@ -70,10 +70,12 @@ Route::namespace('Api')->group(function () {
         });
 
         Route::prefix('history')->group(function () {
+            Route::get('get', 'HistoryController@getHistories');
+            Route::get('get-by-user/{userId}', 'HistoryController@getHistoriesByUser');
             Route::post('save', 'HistoryController@saveHistory');
             Route::put('change-status/{historyId}', 'HistoryController@changeHistoryStatus');
         });
     });
 });
-//TODO: consulta de historias de usurio seguidos
+
 //TODO: actualizacion de datos de usurio
