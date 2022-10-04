@@ -18,7 +18,8 @@ class ReportReasesonsSeeder extends Seeder
             DB::table('report_reasons')->insert([
                 'name' => $obj->name,
                 'description' => $obj->description,
-                'code' => $obj->code
+                'code' => $obj->code,
+                'auto_punish_limit' => $obj->auto_punish_limit
             ]);
         }
     }

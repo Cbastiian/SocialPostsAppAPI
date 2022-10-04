@@ -18,6 +18,7 @@ use Src\Api\User\Domain\ValueObjects\Photo;
 use Src\Api\User\Domain\ValueObjects\UserId;
 use App\Mail\Api\User\ResetPasswordMailiable;
 use Src\Api\Shared\Domain\ValueObjects\Token;
+use Src\Api\Shared\Domain\ValueObjects\Status;
 use Src\Api\User\Domain\ValueObjects\Password;
 use Src\Api\Shared\Domain\ValueObjects\OtpCode;
 use Src\Api\User\Domain\Contracts\UserRepository;
@@ -160,6 +161,12 @@ final class UserEloquentRepository implements UserRepository
         $user->delete();
     }
 
+    public function updateUser(UserId $userId, UserEntity $userEntity)
+    {
+        return User::where('id', $userId->value())
+            ->update($userEntity->toUpdateArray());
+    }
+
     public function checkUserCreationTime(string $creationDate)
     {
         $currentDate  = Carbon::now();
@@ -170,6 +177,13 @@ final class UserEloquentRepository implements UserRepository
     public function assignRoles(UserId $userId)
     {
         $this->findById($userId)->assignRole(Role::findByName('regular_user'));
+    }
+
+    public function changeUserStatus(UserId $userId, Status $status)
+    {
+        return User::where('id', $userId->value())
+            ->first()
+            ->update(['active', $status]);
     }
 
     public function findByEmail(Email $email)

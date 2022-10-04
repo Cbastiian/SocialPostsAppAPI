@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api\Post;
 
+use App\Models\User;
 use App\Dto\Post\SavePostData;
 use App\Utils\BaseFormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -10,7 +11,7 @@ class SavePostRequest extends BaseFormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return User::find(auth()->user()->id)->hasRole('regular_user');
     }
 
     public function rules(): array

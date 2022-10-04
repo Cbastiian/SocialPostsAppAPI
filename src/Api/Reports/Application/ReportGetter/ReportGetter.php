@@ -23,10 +23,6 @@ use Src\Api\Reports\Domain\ValueObjects\ReportElementType;
 final class ReportGetter
 {
     private ReportValidation $reportValidation;
-    private CommentValidation $commentValidation;
-    private PostValidation $postValidation;
-    private UserValidation $userValidation;
-    private ProductValidation $productValidation;
     private ListReportedComments $listReportedComments;
     private ListReportedPost $listReportedPost;
     private ListReportedUsers $listReportedUsers;
@@ -34,20 +30,12 @@ final class ReportGetter
 
     public function __construct(
         ReportValidation $reportValidation,
-        CommentValidation $commentValidation,
-        PostValidation $postValidation,
-        UserValidation $userValidation,
-        ProductValidation $productValidation,
         ListReportedComments $listReportedComments,
         ListReportedPost $listReportedPost,
         ListReportedUsers $listReportedUsers,
         ListReportedProducts $listReportedProducts
     ) {
         $this->reportValidation = $reportValidation;
-        $this->commentValidation = $commentValidation;
-        $this->postValidation = $postValidation;
-        $this->userValidation = $userValidation;
-        $this->productValidation = $productValidation;
         $this->listReportedComments = $listReportedComments;
         $this->listReportedPost = $listReportedPost;
         $this->listReportedUsers = $listReportedUsers;
@@ -67,16 +55,16 @@ final class ReportGetter
     {
         switch ($reportElementType->value()) {
             case 'COMMENT':
-                $strategy =  new CommentReportStrategy($this->commentValidation, $this->listReportedComments);
+                $strategy =  new CommentReportStrategy(null, $this->listReportedComments, null);
                 break;
             case 'POST':
-                $strategy =  new PostReportStrategy($this->postValidation, $this->listReportedPost);
+                $strategy =  new PostReportStrategy(null, $this->listReportedPost, null);
                 break;
             case 'USER':
-                $strategy = new UserReportStrategy($this->userValidation, $this->listReportedUsers);
+                $strategy = new UserReportStrategy(null, $this->listReportedUsers, null);
                 break;
             case 'PRODUCT':
-                $strategy = new ProductReportStrategy($this->productValidation, $this->listReportedProducts);
+                $strategy = new ProductReportStrategy(null, $this->listReportedProducts, null);
                 break;
             default:
                 $this->reportValidation->throwIfReportEntityInvalid($reportElementType);

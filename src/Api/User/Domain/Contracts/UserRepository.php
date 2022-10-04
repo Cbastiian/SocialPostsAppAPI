@@ -9,6 +9,7 @@ use Src\Api\User\Domain\ValueObjects\Email;
 use Src\Api\User\Domain\ValueObjects\Photo;
 use Src\Api\User\Domain\ValueObjects\UserId;
 use Src\Api\Shared\Domain\ValueObjects\Token;
+use Src\Api\Shared\Domain\ValueObjects\Status;
 use Src\Api\User\Domain\ValueObjects\Password;
 use Src\Api\Shared\Domain\ValueObjects\OtpCode;
 
@@ -28,7 +29,9 @@ interface UserRepository
     public function getNoActiveUsers();
     public function checkUserCreationTime(string $creationDate);
     public function deleteUser(UserId $userId);
+    public function updateUser(UserId $userId, UserEntity $userEntity);
     public function assignRoles(UserId $userId);
+    public function changeUserStatus(UserId $userId, Status $status);
     public function findByEmail(Email $email);
     public function findById(UserId $userId);
 }

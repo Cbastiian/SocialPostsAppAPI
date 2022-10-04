@@ -18,6 +18,7 @@ class CreateReportReasonsTable extends Migration
             $table->string('name');
             $table->longText('description')->nullable();
             $table->string('code', 20);
+            $table->bigInteger('auto_punish_limit')->default('10');
             $table->timestamps();
         });
     }

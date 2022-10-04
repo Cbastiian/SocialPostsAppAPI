@@ -18,34 +18,24 @@ final class UserEntity
     private Password $password;
     private ?Photo $photo;
 
-    public function __construct(
-        Name $name,
-        Email $email,
-        Username $username,
-        Password $password,
-        ?Photo $photo
-    ) {
-        $this->name = $name;
-        $this->email = $email;
-        $this->username = $username;
-        $this->password = $password;
-        $this->photo = $photo;
+    public function toCreateArray(): array
+    {
+        return [
+            'name' => $this->getName()->value(),
+            'email' => $this->getEmail()->value(),
+            'username' => $this->getUsername()->value(),
+            'password' => $this->getPassword()->value(),
+            'photo' => $this->getPhoto()->value()
+        ];
     }
 
-    public static  function create(
-        Name $name,
-        Email $email,
-        Username $username,
-        Password $password,
-        ?Photo $photo
-    ) {
-        return new self(
-            $name,
-            $email,
-            $username,
-            $password,
-            $photo
-        );
+    public function toUpdateArray(): array
+    {
+        return [
+            'name' => $this->getName()->value(),
+            'email' => $this->getEmail()->value(),
+            'username' => $this->getUsername()->value(),
+        ];
     }
 
     /***
@@ -57,11 +47,27 @@ final class UserEntity
     }
 
     /***
+     * set the value of name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /***
      * get the value of email
      */
     public function getEmail(): Email
     {
         return $this->email;
+    }
+
+    /***
+     * set the value of email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
     }
 
     /***
@@ -73,11 +79,27 @@ final class UserEntity
     }
 
     /***
+     * set the value of username
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
+
+    /***
      * get the value of password
      */
     public function getPassword(): Password
     {
         return $this->password;
+    }
+
+    /***
+     * set the value of password
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
     }
 
     /***
@@ -88,14 +110,11 @@ final class UserEntity
         return $this->photo;
     }
 
-    public function toArray(): array
+    /***
+     * set the value of photo
+     */
+    public function setPhoto($photo)
     {
-        return [
-            'name' => $this->getName()->value(),
-            'email' => $this->getEmail()->value(),
-            'username' => $this->getUsername()->value(),
-            'password' => $this->getPassword()->value(),
-            'photo' => $this->getPhoto()->value()
-        ];
+        $this->photo = $photo;
     }
 }

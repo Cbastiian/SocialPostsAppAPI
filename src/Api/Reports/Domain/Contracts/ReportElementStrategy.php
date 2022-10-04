@@ -8,4 +8,5 @@ interface ReportElementStrategy
 {
     public function executeElementValidtion(ReportElementId $reportElementId);
     public function executeElementGetter();
+    public function executeElementPunish(ReportElementId $reportElementId);
 }
