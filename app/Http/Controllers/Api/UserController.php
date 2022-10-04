@@ -12,7 +12,9 @@ use App\Http\Requests\Api\User\UnfollowUserRequest;
 use App\Http\Requests\Api\User\ValidateUserRequest;
 use App\Http\Requests\Api\User\ResetPasswordRequest;
 use App\Http\Requests\Api\User\UpdateUserBioRequest;
+use App\Http\Requests\Api\User\UpdateUserDataRequest;
 use Src\Api\User\Application\UserCreator\CreateUserCommand;
+use Src\Api\User\Application\UserUpdater\UpdateUserCommand;
 use Src\Api\User\Application\UserFollower\FollowUserCommand;
 use App\Http\Requests\Api\User\SendResetPasswordEmailRequest;
 use App\Http\Requests\Api\User\UpdateUserProfilePhotoRequest;
@@ -264,6 +266,28 @@ class UserController extends Controller
             $followings = $this->commandBus->execute($command);
 
             return response()->json($followings, 200);
+        } catch (DomainError $error) {
+            return response()->json([
+                "code" => $error->errorCode(),
+                "detail" => $error->errorMessage()
+            ], 422);
+        } catch (Exception $th) {
+            return response()->json([
+                'code' => $th->getCode(),
+                'detail' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    public function updateUser(UpdateUserDataRequest $updateUserDataRequest)
+    {
+        try {
+            $data = $updateUserDataRequest->data();
+
+            $command = new UpdateUserCommand($data->userId, $data->name, $data->email, $data->username);
+
+            $this->commandBus->execute($command);
+            return response()->json(["message" => "User data updated succesfully"]);
         } catch (DomainError $error) {
             return response()->json([
                 "code" => $error->errorCode(),

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api\Comment;
 
+use App\Models\User;
 use App\Utils\BaseFormRequest;
 use App\Dto\Comment\SaveCommentData;
 use Illuminate\Support\Facades\Auth;
@@ -10,7 +11,7 @@ class SaveCommentRequest extends BaseFormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return User::find(auth()->user()->id)->hasRole('regular_user');
     }
 
     public function rules(): array

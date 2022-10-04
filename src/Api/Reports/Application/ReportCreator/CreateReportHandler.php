@@ -19,6 +19,7 @@ use Src\Api\Product\Application\ListReportedProducts;
 use Src\Api\Reports\Application\CommentReportStrategy;
 use Src\Api\Reports\Application\ProductReportStrategy;
 use Src\Api\Reports\Domain\Contracts\ReportValidation;
+use Src\Api\Comment\Domain\Contracts\CommentRepository;
 use Src\Api\Comment\Domain\Contracts\CommentValidation;
 use Src\Api\Product\Domain\Contracts\ProductValidation;
 use Src\Api\Reports\Domain\ValueObjects\ReportElementId;
@@ -32,10 +33,6 @@ final class CreateReportHandler implements CommandHandler
     private PostValidation $postValidation;
     private UserValidation $userValidation;
     private ProductValidation $productValidation;
-    private ListReportedComments $listReportedComments;
-    private ListReportedPost $listReportedPost;
-    private ListReportedUsers $listReportedUsers;
-    private ListReportedProducts $listReportedProducts;
 
     public function __construct(
         ReportCreator $reportCreator,
@@ -43,11 +40,7 @@ final class CreateReportHandler implements CommandHandler
         CommentValidation $commentValidation,
         PostValidation $postValidation,
         UserValidation $userValidation,
-        ProductValidation $productValidation,
-        ListReportedComments $listReportedComments,
-        ListReportedPost $listReportedPost,
-        ListReportedUsers $listReportedUsers,
-        ListReportedProducts $listReportedProducts
+        ProductValidation $productValidation
     ) {
         $this->reportCreator = $reportCreator;
         $this->reportValidation = $reportValidation;
@@ -55,10 +48,6 @@ final class CreateReportHandler implements CommandHandler
         $this->postValidation = $postValidation;
         $this->userValidation = $userValidation;
         $this->productValidation = $productValidation;
-        $this->listReportedComments = $listReportedComments;
-        $this->listReportedPost = $listReportedPost;
-        $this->listReportedUsers = $listReportedUsers;
-        $this->listReportedProducts = $listReportedProducts;
     }
 
     public function execute($command)
@@ -83,16 +72,16 @@ final class CreateReportHandler implements CommandHandler
     {
         switch ($reportElementType->value()) {
             case 'COMMENT':
-                $strategy =  new CommentReportStrategy($this->commentValidation, $this->listReportedComments);
+                $strategy =  new CommentReportStrategy($this->commentValidation, null, null);
                 break;
             case 'POST':
-                $strategy =  new PostReportStrategy($this->postValidation, $this->listReportedPost);
+                $strategy =  new PostReportStrategy($this->postValidation, null, null);
                 break;
             case 'USER':
-                $strategy = new UserReportStrategy($this->userValidation, $this->listReportedUsers);
+                $strategy = new UserReportStrategy($this->userValidation, null, null);
                 break;
             case 'PRODUCT':
-                $strategy = new ProductReportStrategy($this->productValidation, $this->listReportedProducts);
+                $strategy = new ProductReportStrategy($this->productValidation, null, null);
                 break;
         }
 

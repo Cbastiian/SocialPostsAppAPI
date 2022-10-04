@@ -23,4 +23,9 @@ final class ReportElementContext
     {
         return $this->reportElementStrategy->executeElementGetter();
     }
+
+    public function executePunishStrategy(ReportElementId $reportElementId)
+    {
+        $this->reportElementStrategy->executeElementPunish($reportElementId);
+    }
 }

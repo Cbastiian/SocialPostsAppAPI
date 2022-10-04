@@ -9,7 +9,7 @@ class UpdateUserProfilePhotoRequest extends BaseFormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return User::find(auth()->user()->id)->hasRole('regular_user');
     }
 
     public function rules(): array

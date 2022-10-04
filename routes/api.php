@@ -30,6 +30,7 @@ Route::namespace('Api')->group(function () {
             Route::post('update-profile-photo', 'UserController@updatProfilePhoto');
             Route::post('follow-user', 'UserController@followUser');
             Route::post('unfollow-user', 'UserController@unfollowUser');
+            Route::put('update-data', 'UserController@updateUser');
         });
 
         Route::prefix('post')->group(function () {
@@ -50,6 +51,7 @@ Route::namespace('Api')->group(function () {
         Route::prefix('report')->group(function () {
             Route::get('get/{reportElementType}', 'ReportController@getReports');
             Route::post('save', 'ReportController@saveReport');
+            Route::post('punish', 'ReportController@punishReport');
         });
 
         Route::prefix('product')->group(function () {
@@ -77,5 +79,3 @@ Route::namespace('Api')->group(function () {
         });
     });
 });
-
-//TODO: actualizacion de datos de usurio

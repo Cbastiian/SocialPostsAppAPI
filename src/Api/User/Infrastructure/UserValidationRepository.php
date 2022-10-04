@@ -2,6 +2,7 @@
 
 namespace Src\Api\User\Infrastructure;
 
+use SelfEmailError;
 use App\Models\User;
 use App\Models\PasswordReset;
 use Src\Api\User\Domain\ValueObjects\Email;
@@ -63,6 +64,16 @@ final class UserValidationRepository implements UserValidation
         $user = $this->findUsername($username);
 
         if ($user == null) throw new UsernameNotExistError($username);
+    }
+
+    public function throwIfNotSelfEmail(UserId $userId, Email $email)
+    {
+        $emailFinder = $this->findEmail($email);
+
+        if ($emailFinder) {
+            $user = $this->findUser($userId);
+            if ($user->email != $emailFinder->email) throw new EmailAlreadyExist($email);
+        }
     }
 
     public function findUser(UserId $userId)
