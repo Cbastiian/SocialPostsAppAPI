@@ -7,8 +7,6 @@ namespace Src\Api\Reports\Application\ReportGetter;
 use Src\Api\Post\Application\ListReportedPost;
 use Src\Api\User\Application\ListReportedUsers;
 use Src\Api\Reports\Domain\ReportElementContext;
-use Src\Api\Post\Domain\Contracts\PostValidation;
-use Src\Api\User\Domain\Contracts\UserValidation;
 use Src\Api\Reports\Application\PostReportStrategy;
 use Src\Api\Reports\Application\UserReportStrategy;
 use Src\Api\Comment\Application\ListReportedComments;
@@ -16,8 +14,6 @@ use Src\Api\Product\Application\ListReportedProducts;
 use Src\Api\Reports\Application\CommentReportStrategy;
 use Src\Api\Reports\Application\ProductReportStrategy;
 use Src\Api\Reports\Domain\Contracts\ReportValidation;
-use Src\Api\Comment\Domain\Contracts\CommentValidation;
-use Src\Api\Product\Domain\Contracts\ProductValidation;
 use Src\Api\Reports\Domain\ValueObjects\ReportElementType;
 
 final class ReportGetter

@@ -40,7 +40,7 @@ final class ReportEloquentRepository implements ReportsRepository
         ReportElementType $reportElementType,
         ReasonId $reasonId
     ) {
-        Report::where([
+        return Report::where([
             ['reason_id', $reasonId->value()],
             ['report_element_type', $reportElementType->value()],
             ['report_element_id', $reportElementId->value()]

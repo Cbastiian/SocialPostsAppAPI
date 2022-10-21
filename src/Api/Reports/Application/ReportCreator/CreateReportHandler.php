@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Src\Api\Reports\Application\ReportCreator;
 
 use Src\Api\User\Domain\ValueObjects\UserId;
-use Src\Api\Post\Application\ListReportedPost;
-use Src\Api\User\Application\ListReportedUsers;
 use Src\Api\Reports\Domain\ReportElementContext;
 use Src\Api\Post\Domain\Contracts\PostValidation;
 use Src\Api\Reports\Domain\ValueObjects\ReasonId;
@@ -14,16 +12,14 @@ use Src\Api\User\Domain\Contracts\UserValidation;
 use Src\Api\Reports\Application\PostReportStrategy;
 use Src\Api\Reports\Application\UserReportStrategy;
 use Src\Api\Shared\Domain\Contracts\CommandHandler;
-use Src\Api\Comment\Application\ListReportedComments;
-use Src\Api\Product\Application\ListReportedProducts;
 use Src\Api\Reports\Application\CommentReportStrategy;
 use Src\Api\Reports\Application\ProductReportStrategy;
 use Src\Api\Reports\Domain\Contracts\ReportValidation;
-use Src\Api\Comment\Domain\Contracts\CommentRepository;
 use Src\Api\Comment\Domain\Contracts\CommentValidation;
 use Src\Api\Product\Domain\Contracts\ProductValidation;
 use Src\Api\Reports\Domain\ValueObjects\ReportElementId;
 use Src\Api\Reports\Domain\ValueObjects\ReportElementType;
+use Src\Api\Reports\Domain\ValueObjects\ReportId;
 
 final class CreateReportHandler implements CommandHandler
 {
@@ -33,6 +29,7 @@ final class CreateReportHandler implements CommandHandler
     private PostValidation $postValidation;
     private UserValidation $userValidation;
     private ProductValidation $productValidation;
+    private AutopunishChecker $autopunishChecker;
 
     public function __construct(
         ReportCreator $reportCreator,
@@ -40,7 +37,8 @@ final class CreateReportHandler implements CommandHandler
         CommentValidation $commentValidation,
         PostValidation $postValidation,
         UserValidation $userValidation,
-        ProductValidation $productValidation
+        ProductValidation $productValidation,
+        AutopunishChecker $autopunishChecker
     ) {
         $this->reportCreator = $reportCreator;
         $this->reportValidation = $reportValidation;
@@ -48,6 +46,7 @@ final class CreateReportHandler implements CommandHandler
         $this->postValidation = $postValidation;
         $this->userValidation = $userValidation;
         $this->productValidation = $productValidation;
+        $this->autopunishChecker = $autopunishChecker;
     }
 
     public function execute($command)
@@ -65,7 +64,16 @@ final class CreateReportHandler implements CommandHandler
 
         $context->executeValidationStrtegy($reportElementId);
 
-        return $this->reportCreator->__invoke($reasonId, $reportElementType, $reportElementId, $reportUserId);
+        $reportData = $this->reportCreator->__invoke($reasonId, $reportElementType, $reportElementId, $reportUserId);
+
+        $reportId = new ReportId($reportData->id);
+
+        $autopunishData = $this->autopunishChecker->__invoke($reportElementId, $reportElementType, $reasonId, $reportId);
+
+        return [
+            'report_data' => $reportData,
+            'auto_punish_data' => $autopunishData
+        ];
     }
 
     public function getStrategy(ReportElementType $reportElementType)
