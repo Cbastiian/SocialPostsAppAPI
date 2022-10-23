@@ -32,6 +32,7 @@ final class UserReportStrategy implements ReportElementStrategy
         $userId = new UserId($reportElementId->value());
 
         $this->userValidation->throwIfUserNotExist($userId);
+        $this->userValidation->throwIfUserIsAdmin($userId);
     }
 
     public function executeElementGetter()

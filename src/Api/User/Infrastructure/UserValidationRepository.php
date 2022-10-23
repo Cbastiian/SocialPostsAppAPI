@@ -15,6 +15,7 @@ use Src\Api\User\Domain\Exceptions\UserAlreadyActive;
 use Src\Api\User\Domain\Exceptions\UserInactiveError;
 use Src\Api\User\Domain\Exceptions\UserNotExistError;
 use Src\Api\User\Domain\Exceptions\EmailNotExistError;
+use Src\Api\User\Domain\Exceptions\UserIsAdminError;
 use Src\Api\User\Domain\Exceptions\UsernameAlreadyExists;
 use Src\Api\User\Domain\Exceptions\UsernameNotExistError;
 
@@ -74,6 +75,13 @@ final class UserValidationRepository implements UserValidation
             $user = $this->findUser($userId);
             if ($user->email != $emailFinder->email) throw new EmailAlreadyExist($email);
         }
+    }
+
+    public function throwIfUserIsAdmin(UserId $userId)
+    {
+        $user = $this->findUser($userId);
+
+        if($user->hasRole('admin')) throw new UserIsAdminError($userId);
     }
 
     public function findUser(UserId $userId)
