@@ -19,7 +19,8 @@ class ReportReasesonsSeeder extends Seeder
                 'name' => $obj->name,
                 'description' => $obj->description,
                 'code' => $obj->code,
-                'auto_punish_limit' => $obj->auto_punish_limit
+                'auto_punish_limit' => $obj->auto_punish_limit,
+                'same_user_report_limit' => $obj->same_user_report_limit
             ]);
         }
     }

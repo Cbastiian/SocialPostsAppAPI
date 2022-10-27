@@ -57,6 +57,7 @@ final class CreateReportHandler implements CommandHandler
         $reportUserId = new UserId($command->getReportUserId());
 
         $this->reportValidation->throwIfReportEntityInvalid($reportElementType);
+        $this->reportValidation->throwIfSameUserReporLimit($reportElementType, $reportElementId, $reportUserId, $reasonId);
 
         $strategyData = $this->getStrategy($reportElementType);
 
